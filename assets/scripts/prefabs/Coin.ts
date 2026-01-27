@@ -1,6 +1,7 @@
 import { _decorator, Component, Node, tween, PhysicsSystem, RigidBody, v3, Vec3, PhysicsGroup, CylinderCollider, ICollisionEvent } from 'cc';
 import { GameGlobal } from '../GameGlobal';
 import { Const } from '../Const';
+import { Utils } from '../Utils';
 const { ccclass, property } = _decorator;
 
 @ccclass('Coin')
@@ -24,7 +25,7 @@ export class Coin extends Component {
 
     }
     drop(isDome: boolean) {
-        if (this.isDropped) {
+        if (isDome) {
             const rb = this.node.addComponent(RigidBody);
             rb.setGroup(Const.PhysicsGroup.Coin);
             rb.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
@@ -33,10 +34,10 @@ export class Coin extends Component {
             // PhysicsSystem.instance.gravity = new Vec3(0, -30, 0);
             rb.useGravity = true;
             // rb.gravityScale = 100;   // 重力放大 2 倍
-            let f = this.node.position.clone().subtract(new Vec3(0, Math.random() * 3 + 2, 0)).normalize()
-            // rb.applyForce(new Vec3(20,20,20), this.node.getWorldPosition());
-            rb.applyImpulse(f.multiplyScalar(Math.random() * 5 + 3));
-            rb.applyForce(new Vec3(0, Math.random() * 25 - 5, 0), this.node.getWorldPosition());
+            // let f = this.node.position.clone().subtract(new Vec3(0, Math.random() * 3 + 2, 0)).normalize()
+            // // rb.applyForce(new Vec3(20,20,20), this.node.getWorldPosition());
+            // rb.applyImpulse(f.multiplyScalar(Math.random() * 5 + 3));
+            // rb.applyForce(new Vec3(0, Math.random() * 25 - 5, 0), this.node.getWorldPosition());
             // this.scheduleOnce(() => { rb.applyImpulse(new Vec3(0, -2, 0)); }, 0.5)
         } else {
             const rb = this.node.addComponent(RigidBody);
@@ -106,25 +107,16 @@ export class Coin extends Component {
         );
         tween(this.node).to(0.5, {}, {
             onUpdate: (_, ratio) => {
-                this.bezierCurve(ratio, start, control, end, this.node.position);
-
-                // scale 从 2.6 -> 1
-                const startScale = 2.6;
-                const endScale = 1.3;
+                Utils.bezierCurve(ratio, start, control, end, this.node.position);
+                const startScale = 1;
+                const endScale = Const.Config.CoinScaleOnCargoBed;
                 const scaleValue = startScale + (endScale - startScale) * ratio;
-
                 this.node.setScale(new Vec3(scaleValue, scaleValue, scaleValue));
             }
         }).call(() => {
             GameGlobal.Tractor.arrangeCoin(this.node);
         }).start();
 
-    }
-
-    bezierCurve(t: number, p1: Vec3, cp: Vec3, p2: Vec3, out: Vec3) {
-        out.x = (1 - t) * (1 - t) * p1.x + 2 * t * (1 - t) * cp.x + t * t * p2.x;
-        out.y = (1 - t) * (1 - t) * p1.y + 2 * t * (1 - t) * cp.y + t * t * p2.y;
-        out.z = (1 - t) * (1 - t) * p1.z + 2 * t * (1 - t) * cp.z + t * t * p2.z;
     }
 }
 

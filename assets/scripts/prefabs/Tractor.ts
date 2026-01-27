@@ -11,6 +11,7 @@ import { Player } from '../Player';
 import { MoveAlongPath } from '../Utils/MoveAlongPath';
 import { PathLine } from '../Utils/PathLine';
 import { CoinTower } from './CoinTower';
+import { Const } from '../Const';
 const { ccclass, property } = _decorator;
 
 @ccclass('Tractor')
@@ -221,27 +222,9 @@ export class Tractor extends Component implements IActor {
 
         // coin.eulerAngles = new Vec3(Math.random() * 360, Math.random() * 360, Math.random() * 360);
         coin.eulerAngles = new Vec3();
-        this.jellyEffect(coin, 1.3);
+        Utils.jellyEffect(coin, Const.Config.CoinScaleOnCargoBed);
     }
-    jellyEffect(node: Node, t: number) {
-        // let uiOpacity = node.getComponent(UIOpacity);
-        // if (!uiOpacity) uiOpacity = node.addComponent(UIOpacity);
-        // uiOpacity.opacity = 0;
-        node.setScale(Vec3.ZERO);
 
-        tween(node)
-            .to(0.15, { scale: v3(1 * t, 1 * t, 1 * t) })
-            .to(.06, { scale: v3(1.4 * t, 0.53 * t, 1 * t) })
-            .to(.12, { scale: v3(0.8 * t, 1.2 * t, 1 * t) })
-            .to(.07, { scale: v3(1.2 * t, 0.7 * t, 1 * t) })
-            .to(.07, { scale: v3(.85 * t, 1.1 * t, 1 * t) })
-            .to(.07, { scale: v3(1 * t, 1 * t, 1 * t) })
-            .start();
-
-        // tween(uiOpacity)
-        //     .to(.06, { opacity: 255 })
-        //     .start();
-    }
     loadCoin(coin: Node) {
         AudioManager.audioPlay("loadCoin", false);
         coin.position = this.whereToPutNextCoin;
