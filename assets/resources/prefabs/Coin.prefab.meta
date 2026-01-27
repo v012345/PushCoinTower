@@ -2,12 +2,12 @@
   "ver": "1.1.50",
   "importer": "prefab",
   "imported": true,
-  "uuid": "a5d94c84-3603-4bbc-aa90-b7098e0094f0",
+  "uuid": "195dc962-233c-47fa-a45d-1550235e024e",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "huoche"
+    "syncNodeName": "Coin"
   }
 }
