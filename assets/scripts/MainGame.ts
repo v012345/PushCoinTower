@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, tween, Camera, UIOpacity, screen, view, Vec3, ResolutionPolicy, UITransform, Widget, v3, input, Input } from 'cc';
+import { _decorator, Component, Node, tween, PhysicsSystem, EPhysicsDrawFlags, Camera, UIOpacity, screen, view, Vec3, ResolutionPolicy, UITransform, Widget, v3, input, Input } from 'cc';
 import { GameGlobal } from './GameGlobal';
 import { AudioManager } from "./PASDK/AudioManager";
 import { UIAdjust, UIAdjustType } from './Utils/UIAdjust';
@@ -24,6 +24,9 @@ export class MainGame extends Component {
 
 
     start() {
+        PhysicsSystem.instance.debugDrawFlags = EPhysicsDrawFlags.WIRE_FRAME
+            | EPhysicsDrawFlags.AABB
+            | EPhysicsDrawFlags.CONSTRAINT;
         AudioManager.musicPlay("MainBGM", true);
         this.schedule(() => { GameEvent.emit(EventEnum.HeartBeat); }, 1.0);
         view.on("canvas-resize", this.resize, this);
@@ -105,7 +108,7 @@ export class MainGame extends Component {
                 }
                 v.updateImpl();
             })
-            
+
         } else {
             let ratio = screen.windowSize.width / screen.windowSize.height;
             let isRect = ratio >= 1 && ratio <= 1.77;

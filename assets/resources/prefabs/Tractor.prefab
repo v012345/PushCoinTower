@@ -108,7 +108,7 @@
       "__id__": 1
     },
     "_children": [],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 3
@@ -123,8 +123,8 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 11.7,
-      "z": -1.5
+      "y": 4.801,
+      "z": -1.41
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -171,9 +171,9 @@
     },
     "_size": {
       "__type__": "cc.Vec3",
-      "x": 43.4,
-      "y": 3.8,
-      "z": 11.4
+      "x": 24.8,
+      "y": 1.7,
+      "z": 7.7
     },
     "_id": ""
   },
@@ -265,7 +265,7 @@
         "__id__": 776
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [],
     "_prefab": {
       "__id__": 781

@@ -1388,7 +1388,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 640.0000000000001,
+      "x": 640,
       "y": 360,
       "z": 0
     },
@@ -1474,7 +1474,7 @@
     "_priority": 1073741824,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 360,
+    "_orthoHeight": 455.9773371104816,
     "_near": 1,
     "_far": 2000,
     "_color": {
@@ -1729,7 +1729,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 517.9000000000001,
+      "x": 517.9,
       "y": 301.8,
       "z": 0
     },
@@ -1978,7 +1978,7 @@
     "_enabled": true,
     "__prefab": null,
     "type": "竖屏",
-    "saveAttr": "{\"横屏\":{\"position\":{\"x\":237.9,\"y\":301.8,\"z\":0},\"scale\":{\"x\":0.6,\"y\":0.6,\"z\":1},\"isAlignTop\":true,\"isAbsoluteTop\":true,\"isAlignLeft\":false,\"isAbsoluteLeft\":true,\"isAlignBottom\":false,\"isAbsoluteBottom\":true,\"isAlignRight\":true,\"isAbsoluteRight\":true,\"isAlignHorizontalCenter\":false,\"isAbsoluteHorizonalCenter\":true,\"rightPx\":30,\"topPx\":30,\"topPencent\":0.30422000000000027},\"竖屏\":{\"position\":{\"x\":517.9000000000001,\"y\":301.8,\"z\":0},\"scale\":{\"x\":0.6,\"y\":0.6,\"z\":1},\"isAlignTop\":true,\"isAbsoluteTop\":true,\"topPx\":30,\"isAlignLeft\":false,\"isAbsoluteLeft\":true,\"isAlignBottom\":false,\"isAbsoluteBottom\":true,\"isAlignRight\":true,\"isAbsoluteRight\":true,\"rightPx\":30,\"isAlignHorizontalCenter\":false,\"isAbsoluteHorizonalCenter\":true}}",
+    "saveAttr": "{\"横屏\":{\"position\":{\"x\":237.9,\"y\":301.8,\"z\":0},\"scale\":{\"x\":0.6,\"y\":0.6,\"z\":1},\"isAlignTop\":true,\"isAbsoluteTop\":true,\"isAlignLeft\":false,\"isAbsoluteLeft\":true,\"isAlignBottom\":false,\"isAbsoluteBottom\":true,\"isAlignRight\":true,\"isAbsoluteRight\":true,\"isAlignHorizontalCenter\":false,\"isAbsoluteHorizonalCenter\":true,\"rightPx\":30,\"topPx\":30,\"topPencent\":0.30422000000000027},\"竖屏\":{\"position\":{\"x\":517.9,\"y\":301.8,\"z\":0},\"scale\":{\"x\":0.6,\"y\":0.6,\"z\":1},\"isAlignTop\":true,\"isAbsoluteTop\":true,\"topPx\":30,\"isAlignLeft\":false,\"isAbsoluteLeft\":true,\"isAlignBottom\":false,\"isAbsoluteBottom\":true,\"isAlignRight\":true,\"isAbsoluteRight\":true,\"rightPx\":30,\"isAlignHorizontalCenter\":false,\"isAbsoluteHorizonalCenter\":true}}",
     "_id": "57MT2Zc/tCXItZUbsXP8hu"
   },
   {
@@ -6107,7 +6107,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1280.0000000000002,
+      "width": 1280,
       "height": 720
     },
     "_anchorPoint": {
@@ -6296,7 +6296,7 @@
       "__expectedType__": "cc.Prefab"
     },
     "coinPrefab": {
-      "__uuid__": "195dc962-233c-47fa-a45d-1550235e024e",
+      "__uuid__": "c0fc9473-5a30-4234-812b-b9674eb279a0",
       "__expectedType__": "cc.Prefab"
     },
     "_id": "4a6zyP2h1OgYu4LVXKMGK5"
