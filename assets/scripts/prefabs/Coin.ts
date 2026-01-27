@@ -26,13 +26,14 @@ export class Coin extends Component {
     }
     drop(isDome: boolean) {
         if (isDome) {
-            const rb = this.node.addComponent(RigidBody);
-            rb.setGroup(Const.PhysicsGroup.Coin);
-            rb.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
+            const rb = this.node.getComponent(RigidBody);
+            rb.active = true;
+            // rb.setGroup(Const.PhysicsGroup.Coin);
+            // rb.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
 
-            rb.mass = 0.3;
+            // rb.mass = 0.3;
             // PhysicsSystem.instance.gravity = new Vec3(0, -30, 0);
-            rb.useGravity = true;
+            // rb.useGravity = true;
             // rb.gravityScale = 100;   // 重力放大 2 倍
             // let f = this.node.position.clone().subtract(new Vec3(0, Math.random() * 3 + 2, 0)).normalize()
             // // rb.applyForce(new Vec3(20,20,20), this.node.getWorldPosition());
@@ -40,18 +41,16 @@ export class Coin extends Component {
             // rb.applyForce(new Vec3(0, Math.random() * 25 - 5, 0), this.node.getWorldPosition());
             // this.scheduleOnce(() => { rb.applyImpulse(new Vec3(0, -2, 0)); }, 0.5)
         } else {
-            const rb = this.node.addComponent(RigidBody);
-            rb.setGroup(Const.PhysicsGroup.Coin);
-            rb.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
-
+            const rb = this.node.getComponent(RigidBody);
+            rb.active = true;
             rb.mass = 0.3;
             // PhysicsSystem.instance.gravity = new Vec3(0, -30, 0);
-            rb.useGravity = true;
+            // rb.useGravity = true;
             // rb.gravityScale = 100;   // 重力放大 2 倍
             let f = this.node.position.clone().subtract(new Vec3(0, Math.random() * 3 + 2, 0)).normalize()
             // rb.applyForce(new Vec3(20,20,20), this.node.getWorldPosition());
             rb.applyImpulse(f.multiplyScalar(Math.random() * 5 + 3));
-            rb.applyForce(new Vec3(0, Math.random() * 25 - 5, 0), this.node.getWorldPosition());
+            rb.applyForce(new Vec3(Math.random() * 25 - 5, Math.random() * 25 - 5, Math.random() * 25 - 5), this.node.getWorldPosition());
             // this.scheduleOnce(() => { rb.applyImpulse(new Vec3(0, -2, 0)); }, 0.5)
         }
 
@@ -62,7 +61,6 @@ export class Coin extends Component {
     }
     onCollisionEnter(event: ICollisionEvent) {
         const other = event.otherCollider;
-        console.log(other.node.name)
         if (other.node.name == "Ground") {
             // console.log('Coin landed on the ground');
             const collider = this.node.getComponent(CylinderCollider);
