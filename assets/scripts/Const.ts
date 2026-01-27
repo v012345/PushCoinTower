@@ -5,8 +5,6 @@ export class Const {
         CoinTower: 1 << 2,
         Coin: 1 << 3,
         Ground: 1 << 4,
-        DroppedCoin: 1 << 5,
-        DomeCoin: 1 << 6,
-        Tractor: 1 << 7,
+        Tractor: 1 << 5,
     }
 }

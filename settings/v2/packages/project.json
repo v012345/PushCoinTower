@@ -1,3 +1,35 @@
 {
-  "__version__": "1.0.6"
+  "__version__": "1.0.6",
+  "physics": {
+    "collisionGroups": [
+      {
+        "index": 1,
+        "name": "SawBlade"
+      },
+      {
+        "index": 2,
+        "name": "CoinTower"
+      },
+      {
+        "index": 3,
+        "name": "Coin"
+      },
+      {
+        "index": 4,
+        "name": "Ground"
+      },
+      {
+        "index": 5,
+        "name": "Tractor"
+      }
+    ],
+    "collisionMatrix": {
+      "0": 1,
+      "1": 4,
+      "2": 2,
+      "3": 48,
+      "4": 8,
+      "5": 8
+    }
+  }
 }
