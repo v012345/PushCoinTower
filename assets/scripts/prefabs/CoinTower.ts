@@ -28,8 +28,14 @@ export class CoinTower extends Component {
                     AudioManager.audioStop("TowerCollapse");
                     AudioManager.audioPlay("TowerCollapse", false);
                     this.hasBePushed = true;
+                    let i = 0
                     this.coinsNodes.forEach(coins => {
-                        coins.getComponent(OneLayerOfCoins).scatter();
+                        i++
+                        if (i >= this.coinsNodes.length - 3) {
+                            coins.getComponent(OneLayerOfCoins).scatter();
+                        } else {
+                            coins.destroy();
+                        }
                     });
                 }
             }

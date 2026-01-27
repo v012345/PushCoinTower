@@ -25,6 +25,7 @@ export class Coin extends Component {
 
     }
     drop(isDome: boolean) {
+        // return
         const collider = this.node.addComponent(CylinderCollider);
         // collider.active = true;
         collider.radius = 1.8;
