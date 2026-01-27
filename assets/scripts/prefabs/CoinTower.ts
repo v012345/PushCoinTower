@@ -45,7 +45,7 @@ export class CoinTower extends Component {
         for (let i = 0; i < layerNum; i++) {
             const coins = instantiate(this.oneLayerOfCoins);
             coins.setParent(this.node);
-            coins.setPosition(new Vec3(0, .66 * i + 0.66, 0));
+            coins.setPosition(new Vec3(0, 0.9 * i + 1, 0));
             if (i % 2 == 0) {
                 coins.setRotationFromEuler(0, 30, 0);
             }
