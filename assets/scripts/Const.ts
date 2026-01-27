@@ -1,3 +1,5 @@
+import { CoinTower } from "./prefabs/CoinTower"
+
 export class Const {
     static PhysicsGroup = {
         Default: 1 << 0,

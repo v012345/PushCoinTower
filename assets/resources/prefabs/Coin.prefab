@@ -25,19 +25,10 @@
       },
       {
         "__id__": 5
-      },
-      {
-        "__id__": 7
-      },
-      {
-        "__id__": 9
-      },
-      {
-        "__id__": 11
       }
     ],
     "_prefab": {
-      "__id__": 13
+      "__id__": 7
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -146,114 +137,6 @@
   {
     "__type__": "cc.CompPrefabInfo",
     "fileId": "b8tGm7PtpIQ5XBzk7LpFDp"
-  },
-  {
-    "__type__": "cc.RigidBody",
-    "_name": "",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": false,
-    "__prefab": {
-      "__id__": 8
-    },
-    "_group": 8,
-    "_type": 1,
-    "_mass": 1,
-    "_allowSleep": true,
-    "_linearDamping": 0.1,
-    "_angularDamping": 0.1,
-    "_useGravity": true,
-    "_linearFactor": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_angularFactor": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "bfRevyXW9HRKhHWI9ptkSv"
-  },
-  {
-    "__type__": "cc.ConstantForce",
-    "_name": "",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": false,
-    "__prefab": {
-      "__id__": 10
-    },
-    "_force": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": -0.01,
-      "z": 0
-    },
-    "_localForce": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_torque": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_localTorque": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "84aXuNXSFLZr/DCACdLI7d"
-  },
-  {
-    "__type__": "cc.CylinderCollider",
-    "_name": "",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": false,
-    "__prefab": {
-      "__id__": 12
-    },
-    "_material": null,
-    "_isTrigger": false,
-    "_center": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0.4,
-      "z": 0
-    },
-    "_radius": 1.8,
-    "_height": 0.9,
-    "_direction": 1,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "279Pi2P1ZJbrDbuFA7VNFc"
   },
   {
     "__type__": "cc.PrefabInfo",

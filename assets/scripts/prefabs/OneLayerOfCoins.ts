@@ -15,7 +15,7 @@ export class OneLayerOfCoins extends Component {
         this.node.children.forEach(coin => {
 
             const rb = coin.getComponent(Coin);
-            rb.drop(PhysicsGroup.Coin);
+            rb.drop(false);
         });
     }
 }
