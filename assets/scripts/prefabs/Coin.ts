@@ -17,7 +17,7 @@ export class Coin extends Component {
             let p2 = GameGlobal.Tractor.cargoBed.worldPosition.clone();
             p1.y = 0;
             p2.y = 0;
-            if (p1.z < p2.z && Vec3.distance(p1, p2) > 30) {
+            if (p1.z < p2.z && Vec3.distance(p1, p2) > 1) {
                 this.node.getComponent(CylinderCollider)?.destroy();
                 this.node.getComponent(RigidBody)?.destroy();
             }
@@ -77,6 +77,7 @@ export class Coin extends Component {
             // rb.setMask(Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground);
             this.isDropped = true;
             GameGlobal.CoinsPool.push(this);
+
             // this.scheduleOnce(() => {
             //     // this.flyToCargoBed();
             //     GameGlobal.CoinsPool.push(this);

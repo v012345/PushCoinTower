@@ -30,7 +30,6 @@ export class CoinTower extends Component {
                     this.hasBePushed = true;
                     this.coinsNodes.forEach(coins => {
                         coins.getComponent(OneLayerOfCoins).scatter();
-                        this.removeBase();
                     });
                 }
             }
@@ -54,17 +53,7 @@ export class CoinTower extends Component {
             n => n.getComponent(OneLayerOfCoins) !== null
         );
     }
-    removeBase() {
-        // const base = this.node.getChildByName("Base");
-        // if (base) {
-        //     tween(base)
-        //         .to(0.5, { position: new Vec3(0, -6, 0) })
-        //         .call(() => {
-        //             base.destroy();
-        //         })
-        //         .start();
-        // }
-    }
+
 
 
     getRadius(): number {
