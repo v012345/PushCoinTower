@@ -1,0 +1,3 @@
+[submodule "assets/scripts/PASDK"]
+	path = assets/scripts/PASDK
+	url = git@github.com:v012345/PASDK.git
