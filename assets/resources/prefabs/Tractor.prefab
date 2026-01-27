@@ -57381,7 +57381,7 @@
     "node": {
       "__id__": 1
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": {
       "__id__": 4225
     },
@@ -57410,7 +57410,7 @@
     "node": {
       "__id__": 1
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": {
       "__id__": 4227
     },

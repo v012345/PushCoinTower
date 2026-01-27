@@ -2,12 +2,12 @@
   "ver": "1.1.50",
   "importer": "prefab",
   "imported": true,
-  "uuid": "f61159ef-a156-4ff0-b348-b3202b813c49",
+  "uuid": "ccc0890e-01e4-492e-9b25-18e86778657a",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "UILayer"
+    "syncNodeName": "CoinTower"
   }
 }

@@ -1,6 +1,5 @@
 import { _decorator, Camera, Node, Vec3 } from 'cc';
 import { MainGame } from "./MainGame";
-import { Actor } from './Actor';
 import { Tractor } from './prefabs/Tractor';
 import { Coin } from './prefabs/Coin';
 // import { CoinNumber } from './Utils/CoinNumber';

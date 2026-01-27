@@ -42,10 +42,10 @@ export class CoinTower extends Component {
     }
     buildTower(layerNum: number) {
         // 至少15层
-        for (let i = 0; i < layerNum - 15; i++) {
+        for (let i = 0; i < layerNum; i++) {
             const coins = instantiate(this.oneLayerOfCoins);
             coins.setParent(this.node);
-            coins.setPosition(new Vec3(0, 8.66 + 0.66 * i + 0.66, 0));
+            coins.setPosition(new Vec3(0, .66 * i + 0.66, 0));
             if (i % 2 == 0) {
                 coins.setRotationFromEuler(0, 30, 0);
             }
@@ -56,15 +56,15 @@ export class CoinTower extends Component {
         );
     }
     removeBase() {
-        const base = this.node.getChildByName("Base");
-        if (base) {
-            tween(base)
-                .to(0.5, { position: new Vec3(0, -6, 0) })
-                .call(() => {
-                    base.destroy();
-                })
-                .start();
-        }
+        // const base = this.node.getChildByName("Base");
+        // if (base) {
+        //     tween(base)
+        //         .to(0.5, { position: new Vec3(0, -6, 0) })
+        //         .call(() => {
+        //             base.destroy();
+        //         })
+        //         .start();
+        // }
     }
 
 
