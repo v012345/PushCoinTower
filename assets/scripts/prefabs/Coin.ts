@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, tween, PhysicsSystem, RigidBody, v3, Vec3, PhysicsGroup, CylinderCollider, ICollisionEvent } from 'cc';
+import { _decorator, Component, Node, tween, ConstantForce, PhysicsSystem, RigidBody, v3, Vec3, PhysicsGroup, CylinderCollider, ICollisionEvent } from 'cc';
 import { GameGlobal } from '../GameGlobal';
 import { Const } from '../Const';
 import { Utils } from '../Utils';
@@ -25,9 +25,15 @@ export class Coin extends Component {
 
     }
     drop(isDome: boolean) {
+        const collider = this.node.getComponent(CylinderCollider);
+        collider.active = true;
+        const rb = this.node.getComponent(RigidBody);
+        rb.active = true;
+        const cf = this.node.getComponent(ConstantForce);
+        cf.enabled = true;
         if (isDome) {
-            const rb = this.node.getComponent(RigidBody);
-            rb.active = true;
+
+            // rb.active = true;
             // rb.setGroup(Const.PhysicsGroup.Coin);
             // rb.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
 
@@ -41,8 +47,8 @@ export class Coin extends Component {
             // rb.applyForce(new Vec3(0, Math.random() * 25 - 5, 0), this.node.getWorldPosition());
             // this.scheduleOnce(() => { rb.applyImpulse(new Vec3(0, -2, 0)); }, 0.5)
         } else {
-            const rb = this.node.getComponent(RigidBody);
-            rb.active = true;
+            // const rb = this.node.getComponent(RigidBody);
+            // rb.active = true;
             rb.mass = 0.3;
             // PhysicsSystem.instance.gravity = new Vec3(0, -30, 0);
             // rb.useGravity = true;
@@ -54,9 +60,6 @@ export class Coin extends Component {
             // this.scheduleOnce(() => { rb.applyImpulse(new Vec3(0, -2, 0)); }, 0.5)
         }
 
-        const collider = this.node.addComponent(CylinderCollider);
-        collider.radius = 1.311;
-        collider.height = 0.7;
         collider.on('onCollisionEnter', this.onCollisionEnter, this);
     }
     onCollisionEnter(event: ICollisionEvent) {
