@@ -49,7 +49,6 @@ export class CoinTower extends Component {
             if (i % 2 == 0) {
                 coins.setRotationFromEuler(0, 30, 0);
             }
-            this.level = GameGlobal.levelMap[i + 1] || 1;
         }
         this.coinsNodes = this.node.children.filter(
             n => n.getComponent(OneLayerOfCoins) !== null

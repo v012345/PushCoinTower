@@ -1,6 +1,7 @@
 import { _decorator, Component, instantiate, Node, math, Prefab, Vec3 } from 'cc';
 const { ccclass, property } = _decorator;
 import { CoinTower } from '../prefabs/CoinTower';
+import { GameGlobal } from '../GameGlobal';
 @ccclass('CoinTowerManager')
 export class CoinTowerManager extends Component {
     @property(Node)
@@ -60,7 +61,8 @@ export class CoinTowerManager extends Component {
             for (let i = 0; i < 17; i++) {
                 const coinTowernode = instantiate(this.coinTowerPrefab);
                 const coinTower = coinTowernode.getComponent(CoinTower);
-                coinTower.layerNum = 15 + i
+                coinTower.layerNum = 15 + i;
+                coinTower.level = GameGlobal.levelMap[i + 1] || 1;
                 coinTowernode.setParent(this.coinTowersNode);
                 coinTowernode.setPosition(new Vec3(
                     x,
