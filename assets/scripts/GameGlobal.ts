@@ -76,15 +76,15 @@ export class GameGlobal {
         4: [100, 25],
     };
     public static FirstCoinPosInCargo: Record<number, Vec3> = {
-        1: new Vec3(-6, 0.3, -4),
-        2: new Vec3(-6, 0.3, -6),
-        3: new Vec3(-4, 0.3, -9),
-        4: new Vec3(-6, 1.7, -10),
+        1: new Vec3(-3, 0.3, -3),
+        2: new Vec3(-3, 0.3, -4.5),
+        3: new Vec3(-3, 0.3, -6),
+        4: new Vec3(-4.5, 0.3, -6),
     }
     public static CoinSize: Record<number, Array<number>> = {
-        1: [4, 1.1, 4],
-        2: [4, 1.1, 4],
-        3: [4, 1.1, 3.5],
-        4: [4, 1.1, 4],
+        1: [3, 1.1, 3],
+        2: [3, 1.1, 3],
+        3: [3, 1.1, 3],
+        4: [3, 1.1, 3],
     }
 }
