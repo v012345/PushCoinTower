@@ -27,34 +27,16 @@ export class Coin extends Component {
         collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
         collider.on('onCollisionEnter', this.onCollisionEnter, this);
     }
-    drop(isDome: boolean) {
-        // if (isDome) {
-        //     let collider = this.node.addComponent(CylinderCollider);
-        //     let rb = this.node.addComponent(RigidBody);
-        //     collider.radius = 1.7;
-        //     collider.height = 0.7;
-        //     collider.center = v3(0, 0.4, 0);
-        //     rb.useGravity = true;
-        //     collider.setGroup(Const.PhysicsGroup.Coin);
-        //     collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
-        //     collider.on('onCollisionEnter', this.onCollisionEnter, this);
-        // } else {
+    drop() {
         this.addPyhsics();
         let rb = this.node.getComponent(RigidBody);
         rb.applyImpulse(new Vec3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5));
-
-        // }
-
 
     }
     removePhysics() {
         this.node.getComponent(CylinderCollider)?.destroy();
         this.node.getComponent(RigidBody)?.destroy();
         this.node.getComponent(ConstantForce)?.destroy();
-    }
-    onDestroy() {
-        // console.log("onDestroy");
-
     }
 
     onCollisionEnter(event: ICollisionEvent) {
@@ -92,10 +74,6 @@ export class Coin extends Component {
                     }, 5);
                 }
             }
-
-
-        } else if (other.node.name == "Tractor") {
-
         }
     }
 
