@@ -3,6 +3,7 @@ import { OneLayerOfCoins } from './OneLayerOfCoins';
 import { GameGlobal } from '../GameGlobal';
 import { AudioManager } from '../PASDK/AudioManager';
 import { Tractor } from './Tractor';
+import { GameEvent } from '../managers/EventManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('CoinTower')
@@ -17,8 +18,15 @@ export class CoinTower extends Component {
     oneLayerOfCoins: Prefab;
     hasBePushed: boolean = false;
     coinsNodes: Node[] = [];
+    towerIndex: number = 0;
 
     start() {
+        GameEvent.on('CollideCoinTower', (towerIndex: number) => {
+            if (towerIndex - 4 > this.towerIndex) {
+                this.node.destroy();
+                // this.node.active = false;
+            }
+        }, this);
         this.buildTower(this.layerNum);
         this.collider.on('onTriggerEnter', (event: ITriggerEvent) => {
 
@@ -55,6 +63,7 @@ export class CoinTower extends Component {
         for (let i = 0; i < layerNum; i++) {
             const coins = instantiate(this.oneLayerOfCoins);
             coins.setParent(this.node);
+            coins.getComponent(OneLayerOfCoins).towerIndex = this.towerIndex;
             coins.setPosition(new Vec3(0, 0.9 * i + 1, 0));
             if (i % 2 == 0) {
                 coins.setRotationFromEuler(0, 30, 0);
@@ -84,14 +93,6 @@ export class CoinTower extends Component {
     }
 
 
-
-    getRadius(): number {
-        // const trigger = this.node.getChildByName("TriggerArea");
-        // const mr  = trigger.getComponent(MeshRenderer);
-        // const size = mr.mesh.getBoundingBox().getSize();
-        // return size.x;
-        return 5;
-    }
 }
 
 

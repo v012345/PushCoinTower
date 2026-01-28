@@ -4,8 +4,12 @@ const { ccclass, property } = _decorator;
 
 @ccclass('OneLayerOfCoins')
 export class OneLayerOfCoins extends Component {
+    towerIndex: number = 0;
     start() {
-
+        this.node.children.forEach(coin => {
+            let c = coin.getComponent(Coin);
+            c.towerIndex = this.towerIndex;
+        });
     }
 
     update(deltaTime: number) {

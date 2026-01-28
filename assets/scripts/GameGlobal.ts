@@ -24,7 +24,7 @@ export class GameGlobal {
     // public static factory: Factory;
     // public static failNum: number = 0;
     public static cargoBed: Node;
-    public static CoinsPool: Set<Coin> = new Set<Coin>();
+    public static DroppedCoinsPool: Array<Array<Coin>> = [[]];
     public static Tractor: Tractor;
     public static levelMap: Record<number, number> = {
         1: 1,

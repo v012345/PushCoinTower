@@ -54,6 +54,7 @@ export class Tractor extends Component implements IActor {
     isUpgrading: boolean = false;
     blades: Node[] = [];
     isUnloading: boolean = false; // 是否正在卸货中
+    lastPushTowerIndex = -1;
     start() {
         Player.setLeadAcotor(this);
 
@@ -83,7 +84,6 @@ export class Tractor extends Component implements IActor {
     collideCoinTower(event: ITriggerEvent) {
         if (event.otherCollider.node.name == "CoinTowerCollider") {
             const coinTower = event.otherCollider.node.getParent().getComponent(CoinTower);
-            GameEvent.emit(EventEnum.CollideCoinTower);
             if (coinTower.level > this.sawBladeLevel) {
                 GameEvent.emit(EventEnum.TractorMoveBack);
                 GameEvent.emit(EventEnum.SawBladeNeedUpgrade);
@@ -91,6 +91,9 @@ export class Tractor extends Component implements IActor {
                 this.scheduleOnce(() => {
                     this.isBackForward = false;
                 }, 0.2);
+            } else {
+                this.lastPushTowerIndex = coinTower.towerIndex;
+                GameEvent.emit(EventEnum.CollideCoinTower, coinTower.towerIndex);
             }
 
         }
@@ -206,16 +209,14 @@ export class Tractor extends Component implements IActor {
             if (!this.isUpgrading && !this.isUnloading) {
 
                 let coin;
-                const it = GameGlobal.CoinsPool.values().next();
-                if (!it.done) {
-                    coin = it.value;
-                    GameGlobal.CoinsPool.delete(coin);
-                }
-                if (coin) {
-                    Player.addMoney(1);
-                    coin.getComponent(Coin).removePhysics();
-                    coin.flyTo(this.cargoBed);
-
+                let array = GameGlobal.DroppedCoinsPool[this.lastPushTowerIndex];
+                if (array && array.length > 0) {
+                    coin = array.pop();
+                    if (coin) {
+                        Player.addMoney(1);
+                        coin.getComponent(Coin).removePhysics();
+                        coin.flyTo(this.cargoBed);
+                    }
                 }
 
             }

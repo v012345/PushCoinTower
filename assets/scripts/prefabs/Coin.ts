@@ -8,33 +8,11 @@ const { ccclass, property } = _decorator;
 export class Coin extends Component {
     isDropped: boolean = false;
     canUse: boolean = true;
-    index: number = 0;
+    towerIndex: number = -1;
     hasPhysics: boolean = true;
-    start() {
+    start() { }
+    update(deltaTime: number) { }
 
-    }
-
-
-
-    update(deltaTime: number) {
-        if (this.isDropped) {
-            let p1 = this.node.worldPosition.clone();
-            let p2 = GameGlobal.Tractor.cargoBed.worldPosition.clone();
-            p1.y = 0;
-            p2.y = 0;
-            if (p1.z < p2.z && Vec3.distance(p1, p2) > 20) {
-                this.hasPhysics = false;
-                this.removePhysics();
-            } else if (p1.z < p2.z && Vec3.distance(p1, p2) > 40) {
-                this.removePhysics();
-                this.canUse = false;
-                GameGlobal.CoinsPool.delete(this);
-                this.node.destroy();
-                // this.node.position.y = 100
-            }
-        }
-
-    }
     addPyhsics() {
         let collider = this.node.addComponent(CylinderCollider);
         let rb = this.node.addComponent(RigidBody);
@@ -85,8 +63,9 @@ export class Coin extends Component {
             collider.off('onCollisionEnter', this.onCollisionEnter, this);
             this.isDropped = true;
             this.node.getComponent(ConstantForce).destroy();
-            // this.index = GameGlobal.CoinsPool.length;
-            GameGlobal.CoinsPool.add(this);
+            if (this.towerIndex >= 0) {
+                GameGlobal.DroppedCoinsPool[this.towerIndex].push(this);
+            }
 
             // const it = mySet.values().next();
             // if (!it.done) {
