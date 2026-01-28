@@ -2,6 +2,8 @@ import { _decorator, Component, Node, tween, ConstantForce, PhysicsSystem, Rigid
 import { GameGlobal } from '../GameGlobal';
 import { Const } from '../Const';
 import { Utils } from '../Utils';
+import { GameEvent } from '../managers/EventManager';
+import { EventEnum } from '../Event/EventEnum';
 const { ccclass, property } = _decorator;
 
 @ccclass('Coin')
@@ -10,33 +12,39 @@ export class Coin extends Component {
     canUse: boolean = true;
     towerIndex: number = -1;
     hasPhysics: boolean = true;
-    rb: RigidBody = null;
+    rigidBody: RigidBody = null;
+    collider: CylinderCollider = null;
+    constantForce: ConstantForce = null;
     start() { }
     update(deltaTime: number) { }
 
     addPyhsics() {
-        let collider = this.node.addComponent(CylinderCollider);
-        this.rb = this.node.addComponent(RigidBody);
-        let cf = this.node.addComponent(ConstantForce);
-        collider.radius = 1.7;
-        collider.height = 0.7;
-        collider.center = v3(0, 0.4, 0);
-        this.rb.useGravity = false;
-        cf.force = new Vec3(0, -9.8 * 5, 0);
-        collider.setGroup(Const.PhysicsGroup.Coin);
-        collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
-        collider.on('onCollisionEnter', this.onCollisionEnter, this);
+        this.collider = this.node.addComponent(CylinderCollider);
+        this.rigidBody = this.node.addComponent(RigidBody);
+        this.constantForce = this.node.addComponent(ConstantForce);
+        this.collider.radius = 1.7;
+        this.collider.height = 0.7;
+        this.collider.center = v3(0, 0.4, 0);
+        this.rigidBody.useGravity = false;
+        this.constantForce.force = new Vec3(0, -9.8 * 5, 0);
+        this.collider.setGroup(Const.PhysicsGroup.Coin);
+        this.collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
+        this.collider.on('onCollisionEnter', this.onCollisionEnter, this);
+        GameEvent.on(EventEnum.PushedCoinTower, (towerIndex: number) => {
+            if (this.towerIndex < towerIndex - 4) {
+                this.rigidBody.type = RigidBody.Type.STATIC;
+            }
+        }, this);
     }
     drop() {
         this.addPyhsics();
-        let rb = this.node.getComponent(RigidBody);
-        rb.applyImpulse(new Vec3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5));
+        this.rigidBody.applyImpulse(new Vec3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5));
 
     }
     removePhysics() {
-        this.node.getComponent(CylinderCollider)?.destroy();
-        this.node.getComponent(RigidBody)?.destroy();
-        this.node.getComponent(ConstantForce)?.destroy();
+        this.collider?.destroy();
+        this.rigidBody?.destroy();
+        this.constantForce?.destroy();
     }
 
     onCollisionEnter(event: ICollisionEvent) {
@@ -48,30 +56,23 @@ export class Coin extends Component {
                 let collider = this.node.getComponent(CylinderCollider);
                 collider.setGroup(Const.PhysicsGroup.DroppedCoin);
                 collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
-                this.node.getComponent(ConstantForce).destroy();
+                this.constantForce.destroy();
                 collider.off('onCollisionEnter', this.onCollisionEnter, this);
                 this.isDropped = true;
                 if (this.towerIndex >= 0) {
                     GameGlobal.DroppedCoinsPool[this.towerIndex].push(this);
                 }
-                this.scheduleOnce(() => {
-                    this.rb.type = RigidBody.Type.STATIC;
-                }, 5);
-
             } else {
                 if (other.node.name == "Ground") {
                     let collider = this.node.getComponent(CylinderCollider);
                     collider.off('onCollisionEnter', this.onCollisionEnter, this);
                     this.isDropped = true;
-                    this.node.getComponent(ConstantForce).destroy();
+                    this.constantForce.destroy();
                     if (this.towerIndex >= 0) {
                         GameGlobal.DroppedCoinsPool[this.towerIndex].push(this);
                     }
                     collider.setGroup(Const.PhysicsGroup.DroppedCoin);
                     collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
-                    this.scheduleOnce(() => {
-                        this.rb.type = RigidBody.Type.STATIC;
-                    }, 5);
                 }
             }
         }

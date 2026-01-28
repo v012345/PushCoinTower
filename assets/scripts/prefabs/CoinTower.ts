@@ -21,7 +21,7 @@ export class CoinTower extends Component {
     towerIndex: number = 0;
 
     start() {
-        GameEvent.on('CollideCoinTower', (towerIndex: number) => {
+        GameEvent.on('PushedCoinTower', (towerIndex: number) => {
             if (towerIndex - 4 > this.towerIndex) {
                 this.node.destroy();
                 // this.node.active = false;

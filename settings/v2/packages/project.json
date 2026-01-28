@@ -25,10 +25,6 @@
       {
         "index": 6,
         "name": "DroppedCoin"
-      },
-      {
-        "index": 7,
-        "name": "DomeCoin"
       }
     ],
     "collisionMatrix": {

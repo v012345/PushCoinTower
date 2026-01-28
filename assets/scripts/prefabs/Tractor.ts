@@ -93,7 +93,7 @@ export class Tractor extends Component implements IActor {
                 }, 0.2);
             } else {
                 this.lastPushTowerIndex = coinTower.towerIndex;
-                GameEvent.emit(EventEnum.CollideCoinTower, coinTower.towerIndex);
+                GameEvent.emit(EventEnum.PushedCoinTower, coinTower.towerIndex);
             }
 
         }
