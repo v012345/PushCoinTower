@@ -10,17 +10,18 @@ export class Coin extends Component {
     canUse: boolean = true;
     towerIndex: number = -1;
     hasPhysics: boolean = true;
+    rb: RigidBody = null;
     start() { }
     update(deltaTime: number) { }
 
     addPyhsics() {
         let collider = this.node.addComponent(CylinderCollider);
-        let rb = this.node.addComponent(RigidBody);
+        this.rb = this.node.addComponent(RigidBody);
         let cf = this.node.addComponent(ConstantForce);
         collider.radius = 1.7;
         collider.height = 0.7;
         collider.center = v3(0, 0.4, 0);
-        rb.useGravity = false;
+        this.rb.useGravity = false;
         cf.force = new Vec3(0, -9.8 * 5, 0);
         collider.setGroup(Const.PhysicsGroup.Coin);
         collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
@@ -58,25 +59,7 @@ export class Coin extends Component {
 
     onCollisionEnter(event: ICollisionEvent) {
         const other = event.otherCollider;
-        if (other.node.name == "Ground") {
-            let collider = this.node.getComponent(CylinderCollider);
-            collider.off('onCollisionEnter', this.onCollisionEnter, this);
-            this.isDropped = true;
-            this.node.getComponent(ConstantForce).destroy();
-            if (this.towerIndex >= 0) {
-                GameGlobal.DroppedCoinsPool[this.towerIndex].push(this);
-            }
-
-            // const it = mySet.values().next();
-            // if (!it.done) {
-            //     const value = it.value;
-            //     mySet.delete(value);
-            // }
-
-
-        } else if (other.node.name == "Tractor") {
-
-        } else if (other.node.name == "Coin") {
+        if (other.node.name == "Ground" || other.node.name == "Coin") {
             let rb = other.node.getComponent(RigidBody);
             let group = rb.getGroup();
             if (group == Const.PhysicsGroup.DroppedCoin) {
@@ -86,7 +69,32 @@ export class Coin extends Component {
                 this.node.getComponent(ConstantForce).destroy();
                 collider.off('onCollisionEnter', this.onCollisionEnter, this);
                 this.isDropped = true;
+                if (this.towerIndex >= 0) {
+                    GameGlobal.DroppedCoinsPool[this.towerIndex].push(this);
+                }
+                this.scheduleOnce(() => {
+                    this.rb.type = RigidBody.Type.STATIC;
+                }, 5);
+
+            } else {
+                if (other.node.name == "Ground") {
+                    let collider = this.node.getComponent(CylinderCollider);
+                    collider.off('onCollisionEnter', this.onCollisionEnter, this);
+                    this.isDropped = true;
+                    this.node.getComponent(ConstantForce).destroy();
+                    if (this.towerIndex >= 0) {
+                        GameGlobal.DroppedCoinsPool[this.towerIndex].push(this);
+                    }
+                    collider.setGroup(Const.PhysicsGroup.DroppedCoin);
+                    collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
+                    this.scheduleOnce(() => {
+                        this.rb.type = RigidBody.Type.STATIC;
+                    }, 5);
+                }
             }
+
+
+        } else if (other.node.name == "Tractor") {
 
         }
     }

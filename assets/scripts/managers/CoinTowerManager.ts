@@ -64,6 +64,11 @@ export class CoinTowerManager extends Component {
             for (let i = 0; i < 17; i++) {
                 const coinTowernode = instantiate(this.coinTowerPrefab);
                 const coinTower = coinTowernode.getComponent(CoinTower);
+                if (i % 2 === 0) {
+                    coinTower.layerNum = 12 + i;
+                } else {
+                    coinTower.layerNum = 12 + i - 1;
+                }
                 coinTower.layerNum = 12 + i;
                 coinTower.level = GameGlobal.levelMap[i + 1] || 1;
                 coinTower.towerIndex = i;

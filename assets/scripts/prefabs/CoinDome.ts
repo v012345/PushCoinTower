@@ -41,6 +41,8 @@ export class CoinDome extends Component {
             cf.force = v3(0, -9.8 * 9, 0);
             collider.setGroup(Const.PhysicsGroup.Coin);
             collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
+
+            rb.applyImpulse(v3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5));
         })
     }
 
