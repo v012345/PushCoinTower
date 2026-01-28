@@ -74,7 +74,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": -22.799
+      "z": -22.798999786376953
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -57390,11 +57390,11 @@
     "_center": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 7.4,
+      "y": 4.5,
       "z": -11.2
     },
-    "_radius": 13.4,
-    "_cylinderHeight": 28.6,
+    "_radius": 6.9,
+    "_cylinderHeight": 23.7,
     "_direction": 2,
     "_id": ""
   },
@@ -57414,8 +57414,8 @@
     "__prefab": {
       "__id__": 4227
     },
-    "_group": 8,
-    "_type": 1,
+    "_group": 32,
+    "_type": 4,
     "_mass": 1,
     "_allowSleep": true,
     "_linearDamping": 0,

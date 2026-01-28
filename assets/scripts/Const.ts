@@ -8,8 +8,6 @@ export class Const {
         Coin: 1 << 3,
         Ground: 1 << 4,
         Tractor: 1 << 5,
-        FlyingCoin: 1 << 6,
-        DroppedCoin: 1 << 7,
     }
     static Config = {
         CoinScaleOnCargoBed: 0.77,

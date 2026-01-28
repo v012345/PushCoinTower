@@ -17,7 +17,7 @@ export class Coin extends Component {
             let p2 = GameGlobal.Tractor.cargoBed.worldPosition.clone();
             p1.y = 0;
             p2.y = 0;
-            if (p1.z < p2.z && Vec3.distance(p1, p2) > 1) {
+            if (p1.z < p2.z && Vec3.distance(p1, p2) > 20) {
                 this.node.getComponent(CylinderCollider)?.destroy();
                 this.node.getComponent(RigidBody)?.destroy();
             }
@@ -26,15 +26,17 @@ export class Coin extends Component {
     }
     drop(isDome: boolean) {
         // return
-        const collider = this.node.addComponent(CylinderCollider);
-        // collider.active = true;
-        collider.radius = 1.8;
-        collider.height = 0.8;
-        collider.center = v3(0, 0.4, 0);
+
 
         const rb = this.node.addComponent(RigidBody);
-        rb.setGroup(Const.PhysicsGroup.Coin);
-        rb.setMask(Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
+
+        const collider = this.node.addComponent(CylinderCollider);
+        // collider.active = true;
+        collider.radius = 2;
+        collider.height = 1;
+        collider.center = v3(0, 0.5, 0);
+        collider.setGroup(Const.PhysicsGroup.Coin);
+        collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
         // const cf = this.node.getComponent(ConstantForce);
         // cf.enabled = true;
         if (isDome) {
@@ -69,7 +71,7 @@ export class Coin extends Component {
     }
     onCollisionEnter(event: ICollisionEvent) {
         const other = event.otherCollider;
-        if (other.node.name == "Ground") {
+        if (other.node.name == "Ground" || other.node.name == "Coin") {
             // console.log('Coin landed on the ground');
             const collider = this.node.getComponent(CylinderCollider);
             collider.off('onCollisionEnter', this.onCollisionEnter, this);
@@ -78,7 +80,14 @@ export class Coin extends Component {
             // rb.setMask(Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground);
             this.isDropped = true;
             GameGlobal.CoinsPool.push(this);
+            // const rb = this.node.getComponent(RigidBody);
+            // rb.setGroup(Const.PhysicsGroup.DroppedCoin);
 
+            let collider1 = this.node.getComponent(CylinderCollider);
+            // collider.active = true;
+
+            // collider1.setGroup(Const.PhysicsGroup.DroppedCoin);
+            // collider1.setMask(Const.PhysicsGroup.FlyingCoin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
             // this.scheduleOnce(() => {
             //     // this.flyToCargoBed();
             //     GameGlobal.CoinsPool.push(this);
@@ -89,9 +98,11 @@ export class Coin extends Component {
             // collider.off('onCollisionEnter', this.onCollisionEnter, this);
             // this.isDropped = true;
             // GameGlobal.CoinsPool.push(this);
-            const rb = this.node.getComponent(RigidBody);
-            const f = this.node.position.clone().subtract(other.node.worldPosition).normalize();
-            rb.applyImpulse(f.multiplyScalar(Math.random() * 5 + 3));
+            // const rb = this.node.getComponent(RigidBody);
+            // const f = this.node.position.clone().subtract(other.node.worldPosition).normalize();
+            // rb.applyImpulse(f.multiplyScalar(Math.random() * 5 + 3));
+        } else {
+            console.log('Collided with other object: ' + other.node.name);
         }
     }
 
