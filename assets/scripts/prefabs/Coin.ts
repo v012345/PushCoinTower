@@ -15,7 +15,8 @@ export class Coin extends Component {
     rigidBody: RigidBody = null;
     collider: CylinderCollider = null;
     constantForce: ConstantForce = null;
-    start() { }
+    start() {
+    }
     update(deltaTime: number) { }
 
     addPyhsics() {
@@ -31,9 +32,14 @@ export class Coin extends Component {
         this.collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
         this.collider.on('onCollisionEnter', this.onCollisionEnter, this);
         GameEvent.on(EventEnum.PushedCoinTower, (towerIndex: number) => {
-            if (this.towerIndex < towerIndex - 4) {
+            if (this.towerIndex < towerIndex - 1) {
                 this.rigidBody.type = RigidBody.Type.STATIC;
             }
+        }, this);
+        GameEvent.on(EventEnum.DomeCollapse, () => {
+            this.scheduleOnce(() => {
+                this.rigidBody.type = RigidBody.Type.STATIC;
+            }, 5);
         }, this);
     }
     drop() {
@@ -56,7 +62,7 @@ export class Coin extends Component {
                 let collider = this.node.getComponent(CylinderCollider);
                 collider.setGroup(Const.PhysicsGroup.DroppedCoin);
                 collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
-                this.constantForce.destroy();
+                // this.constantForce.destroy();
                 collider.off('onCollisionEnter', this.onCollisionEnter, this);
                 this.isDropped = true;
                 if (this.towerIndex >= 0) {
@@ -67,7 +73,7 @@ export class Coin extends Component {
                     let collider = this.node.getComponent(CylinderCollider);
                     collider.off('onCollisionEnter', this.onCollisionEnter, this);
                     this.isDropped = true;
-                    this.constantForce.destroy();
+                    // this.constantForce.destroy();
                     if (this.towerIndex >= 0) {
                         GameGlobal.DroppedCoinsPool[this.towerIndex].push(this);
                     }
