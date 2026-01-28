@@ -77,7 +77,7 @@ export class Tractor extends Component implements IActor {
         this.collider.on('onTriggerEnter', this.collideCoinTower, this);
         this.schedule(() => {
             this.blades.forEach(blade => {
-                blade.eulerAngles = new Vec3(blade.eulerAngles.x, blade.eulerAngles.y + 2, blade.eulerAngles.z);
+                blade.eulerAngles = new Vec3(blade.eulerAngles.x, blade.eulerAngles.y + 10, blade.eulerAngles.z);
             });
         });
     }
