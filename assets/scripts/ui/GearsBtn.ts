@@ -76,24 +76,35 @@ export class GearsBtn extends Component {
     }
 
     update(deltaTime: number) {
-        if (this.isShowMax) { this.node.getComponent('cc.Sprite').grayscale = false; return; }
+        if (this.isShowMax) {
+            this.setGray(false);
+            return;
+        }
         let playerMoney = Player.getMoney();
         if (playerMoney < this.price) {
-            this.node.getComponent('cc.Sprite').grayscale = true;
+            this.setGray(true);
             Tween.stopAllByTarget(this.node.getParent());
             this.node.getParent().setScale(this.originalScale);
             this.isBreathing = false;
         } else {
-            this.node.getComponent('cc.Sprite').grayscale = false;
+            this.setGray(false);
             if (this.isBreathing) return;
             this.isBreathing = true;
             if (this.isTouching) return;
             Utils.breathEffect(this.node.getParent());
         }
-
-
-
     }
+
+    setGray(isGray: boolean) {
+        this.node.getComponent('cc.Sprite').grayscale = isGray;
+        this.node.children.forEach(child => {
+            if (child.name != "levelup") {
+                let sprite = child.getComponent('cc.Sprite');
+                if (sprite) sprite.grayscale = isGray;
+            }
+        });
+    }
+
     showMaxLevel() {
         this.isShowMax = true;
         Tween.stopAllByTarget(this.node.getParent());
