@@ -84,6 +84,7 @@ export class Tractor extends Component implements IActor {
     collideCoinTower(event: ITriggerEvent) {
         if (event.otherCollider.node.name == "CoinTowerCollider") {
             const coinTower = event.otherCollider.node.getParent().getComponent(CoinTower);
+            GameEvent.emit(EventEnum.CollideCoinTower);
             if (coinTower.level > this.sawBladeLevel) {
                 GameEvent.emit(EventEnum.TractorMoveBack);
                 GameEvent.emit(EventEnum.SawBladeNeedUpgrade);
