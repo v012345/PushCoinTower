@@ -91,7 +91,7 @@ export class GuideManager extends Component {
         let Tractor = GameGlobal.Tractor;
         this.isGuiding = true;
         if (nextLv <= Tractor.sawBlades.length) {
-            if (Player.getMoney() >= GameGlobal.GearsUp[nextLv]) {
+            if (GameGlobal.CargoBedUp[Tractor.cargoBedLevel][1] >= GameGlobal.GearsUp[nextLv]) {
                 let button_pos = this.sawBladeUpBtn.worldPosition.clone();
                 let uiTransform = this.uiLayer.getComponent(UITransform);
                 let pos_nodeSpace = uiTransform.convertToNodeSpaceAR(new Vec3(button_pos.x, button_pos.y, 0));
@@ -100,6 +100,8 @@ export class GuideManager extends Component {
                 this.handNode.active = true;
                 let cb = () => { this.handNode.active = false; this.isGuiding = false; GameEvent.off('SawBladeUpgrade', cb, this); };
                 GameEvent.on('SawBladeUpgrade', cb, this);
+                let cb1 = () => { this.handNode.active = false; this.isGuiding = false; GameEvent.off(EventEnum.PushedCoinTower, cb1, this); };
+                GameEvent.on(EventEnum.PushedCoinTower, cb1, this);
             } else {
                 let button_pos = this.cargoBedUpBtn.worldPosition.clone();
                 let uiTransform = this.uiLayer.getComponent(UITransform);
