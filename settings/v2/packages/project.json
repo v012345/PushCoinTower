@@ -21,6 +21,14 @@
       {
         "index": 5,
         "name": "Tractor"
+      },
+      {
+        "index": 6,
+        "name": "FlyingCoin"
+      },
+      {
+        "index": 7,
+        "name": "DroppedCoin"
       }
     ],
     "collisionMatrix": {
