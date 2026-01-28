@@ -62,11 +62,20 @@ export class CoinTower extends Component {
             if (i < layerNum - 7) {
                 //优化后面看不到的硬币层
                 // coins.destroy();
-                coins.children.forEach(coin => {
-                    // console.log(coin.position.z);
-                    if (coin.position.z > 2)
-                        coin.destroy();
-                });
+
+                if (i % 2 != 0) {
+                    coins.children.forEach(coin => {
+                        // console.log(coin.position.z);
+                        if (coin.position.z > 0)
+                            coin.destroy();
+                    });
+                } else {
+                    coins.children.forEach(coin => {
+                        // console.log(coin.position.z);
+                        if (coin.position.z > 2)
+                            coin.destroy();
+                    });
+                }
             }
         }
         this.coinsNodes = this.node.children.filter(
