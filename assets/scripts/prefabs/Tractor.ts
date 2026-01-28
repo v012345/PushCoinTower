@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec3, tween, v3, BoxCollider, ITriggerEvent, math, ParticleSystem, randomRange, RigidBody, CylinderCollider } from 'cc';
+import { _decorator, Component, Node, Vec3, tween, v3, BoxCollider, ITriggerEvent, math, ParticleSystem, randomRange, RigidBody, CylinderCollider, ConstantForce } from 'cc';
 import { GameGlobal } from '../GameGlobal';
 import { GameEvent } from '../managers/EventManager';
 import { EventEnum } from '../Event/EventEnum';
@@ -12,6 +12,7 @@ import { MoveAlongPath } from '../Utils/MoveAlongPath';
 import { PathLine } from '../Utils/PathLine';
 import { CoinTower } from './CoinTower';
 import { Const } from '../Const';
+import { Coin } from './Coin';
 const { ccclass, property } = _decorator;
 
 @ccclass('Tractor')
@@ -199,21 +200,30 @@ export class Tractor extends Component implements IActor {
         this.coinSizeZ = GameGlobal.CoinSize[this.cargoBedLevel][2];
     }
 
+    collectCoins() {
+        this.scheduleOnce(() => {
+            if (Player.getMoney() < GameGlobal.CargoBedUp[this.cargoBedLevel][1]) {
+                if (!this.isUpgrading && !this.isUnloading) {
+                    let coin = GameGlobal.CoinsPool.pop();
+                    if (coin && coin.getComponent(Coin).canUse) {
+                        Player.addMoney(1);
+                        coin.node.getComponent(CylinderCollider)?.destroy();
+                        coin.node.getComponent(RigidBody)?.destroy();
+                        coin.node.getComponent(ConstantForce)?.destroy();
+                        coin.flyTo(this.cargoBed);
+
+                    }
+
+                }
+            } else {
+                GameEvent.emit("CargoBedIsFull");
+            }
+        });
+    }
+
 
     update(deltaTime: number) {
-        if (Player.getMoney() < GameGlobal.CargoBedUp[this.cargoBedLevel][1]) {
-            if (!this.isUpgrading && !this.isUnloading) {
-                let coin = GameGlobal.CoinsPool.pop();
-                if (coin) {
-                    Player.addMoney(1);
-                    coin.getComponent(CylinderCollider)?.destroy();
-                    coin.getComponent(RigidBody)?.destroy();
-                    coin.flyTo(this.cargoBed);
-                }
-            }
-        } else {
-            GameEvent.emit("CargoBedIsFull");
-        }
+        this.collectCoins();
     }
 
     arrangeCoin(coin: Node) {

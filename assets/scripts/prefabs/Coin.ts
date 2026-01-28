@@ -7,9 +7,12 @@ const { ccclass, property } = _decorator;
 @ccclass('Coin')
 export class Coin extends Component {
     isDropped: boolean = false;
+    canUse: boolean = true;
     start() {
 
     }
+
+
 
     update(deltaTime: number) {
         if (this.isDropped) {
@@ -20,65 +23,68 @@ export class Coin extends Component {
             if (p1.z < p2.z && Vec3.distance(p1, p2) > 20) {
                 this.node.getComponent(CylinderCollider)?.destroy();
                 this.node.getComponent(RigidBody)?.destroy();
+                this.node.getComponent(ConstantForce)?.destroy();
+                this.canUse = false;
+                // this.destroy();
+                // this.node.position.y = 100
             }
         }
 
     }
     drop(isDome: boolean) {
-        // return
+        let collider = this.node.addComponent(CylinderCollider);
+        let rb = this.node.addComponent(RigidBody);
+        let cf = this.node.addComponent(ConstantForce);
+        collider.radius = 1.7;
+        collider.height = 0.7;
+        collider.center = v3(0, 0.4, 0);
+        rb.useGravity = false;
+        cf.force = new Vec3(0, -9.8 * 4, 0);
 
-
-        const rb = this.node.addComponent(RigidBody);
-
-        const collider = this.node.addComponent(CylinderCollider);
-        // collider.active = true;
-        collider.radius = 2;
-        collider.height = 1;
-        collider.center = v3(0, 0.5, 0);
         collider.setGroup(Const.PhysicsGroup.Coin);
-        collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
-        // const cf = this.node.getComponent(ConstantForce);
-        // cf.enabled = true;
-        if (isDome) {
+        collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
+        rb.applyImpulse(new Vec3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5));
+        // if (isDome) {
 
-            // rb.active = true;
+        //     // rb.active = true;
 
 
-            // rb.mass = 0.3;
-            // PhysicsSystem.instance.gravity = new Vec3(0, -30, 0);
-            // rb.useGravity = true;
-            // rb.gravityScale = 100;   // 重力放大 2 倍
-            // let f = this.node.position.clone().subtract(new Vec3(0, Math.random() * 3 + 2, 0)).normalize()
-            // // rb.applyForce(new Vec3(20,20,20), this.node.getWorldPosition());
-            // rb.applyImpulse(f.multiplyScalar(Math.random() * 5 + 3));
-            // rb.applyForce(new Vec3(0, Math.random() * 25 - 5, 0), this.node.getWorldPosition());
-            // this.scheduleOnce(() => { rb.applyImpulse(new Vec3(0, -2, 0)); }, 0.5)
-        } else {
-            // const rb = this.node.getComponent(RigidBody);
-            // rb.active = true;
-            // rb.mass = 0.3;
-            // // PhysicsSystem.instance.gravity = new Vec3(0, -30, 0);
-            // rb.useGravity = true;
-            // // rb.gravityScale = 100;   // 重力放大 2 倍
-            let f = this.node.position.clone().subtract(new Vec3(0, Math.random() * 3 + 2, 0)).normalize()
-            // rb.applyForce(new Vec3(20,20,20), this.node.getWorldPosition());
-            rb.applyImpulse(f.multiplyScalar(Math.random() * 5 + 3));
-            rb.applyForce(new Vec3(Math.random() * 25 - 5, Math.random() * 25 - 5, Math.random() * 25 - 5), this.node.getWorldPosition());
-            // this.scheduleOnce(() => { rb.applyImpulse(new Vec3(0, -2, 0)); }, 0.5)
-        }
+        //     // rb.mass = 0.3;
+        //     // PhysicsSystem.instance.gravity = new Vec3(0, -30, 0);
+        //     // rb.useGravity = true;
+        //     // rb.gravityScale = 100;   // 重力放大 2 倍
+        //     // let f = this.node.position.clone().subtract(new Vec3(0, Math.random() * 3 + 2, 0)).normalize()
+        //     // // rb.applyForce(new Vec3(20,20,20), this.node.getWorldPosition());
+        //     // rb.applyImpulse(f.multiplyScalar(Math.random() * 5 + 3));
+        //     // rb.applyForce(new Vec3(0, Math.random() * 25 - 5, 0), this.node.getWorldPosition());
+        //     // this.scheduleOnce(() => { rb.applyImpulse(new Vec3(0, -2, 0)); }, 0.5)
+        // } else {
+        //     // const rb = this.node.getComponent(RigidBody);
+        //     // rb.active = true;
+        //     // rb.mass = 0.3;
+        //     // // PhysicsSystem.instance.gravity = new Vec3(0, -30, 0);
+        //     // rb.useGravity = true;
+        //     // // rb.gravityScale = 100;   // 重力放大 2 倍
+        //     let f = this.node.position.clone().subtract(new Vec3(0, Math.random() * 3 + 2, 0)).normalize()
+        //     // rb.applyForce(new Vec3(20,20,20), this.node.getWorldPosition());
+        //     rb.applyImpulse(f.multiplyScalar(Math.random() * 5 + 3));
+        //     rb.applyForce(new Vec3(Math.random() * 25 - 5, Math.random() * 25 - 5, Math.random() * 25 - 5), this.node.getWorldPosition());
+        //     // this.scheduleOnce(() => { rb.applyImpulse(new Vec3(0, -2, 0)); }, 0.5)
+        // }
 
         collider.on('onCollisionEnter', this.onCollisionEnter, this);
     }
     onCollisionEnter(event: ICollisionEvent) {
         const other = event.otherCollider;
-        if (other.node.name == "Ground" || other.node.name == "Coin") {
+        if (other.node.name == "Ground") {
             // console.log('Coin landed on the ground');
-            const collider = this.node.getComponent(CylinderCollider);
+            let collider = this.node.getComponent(CylinderCollider);
             collider.off('onCollisionEnter', this.onCollisionEnter, this);
             // const rb = this.node.getComponent(RigidBody);
             // rb.setGroup(Const.PhysicsGroup.DroppedCoin);
             // rb.setMask(Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground);
             this.isDropped = true;
+            this.node.getComponent(ConstantForce).destroy();
             GameGlobal.CoinsPool.push(this);
             // const rb = this.node.getComponent(RigidBody);
             // rb.setGroup(Const.PhysicsGroup.DroppedCoin);
@@ -101,8 +107,16 @@ export class Coin extends Component {
             // const rb = this.node.getComponent(RigidBody);
             // const f = this.node.position.clone().subtract(other.node.worldPosition).normalize();
             // rb.applyImpulse(f.multiplyScalar(Math.random() * 5 + 3));
-        } else {
-            console.log('Collided with other object: ' + other.node.name);
+        } else if (other.node.name == "Coin") {
+            let rb = other.node.getComponent(RigidBody);
+            let group = rb.getGroup();
+            if (group == Const.PhysicsGroup.DroppedCoin) {
+                let collider = this.node.getComponent(CylinderCollider);
+                collider.setGroup(Const.PhysicsGroup.DroppedCoin);
+                collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
+                this.node.getComponent(ConstantForce).destroy();
+            }
+
         }
     }
 

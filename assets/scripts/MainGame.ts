@@ -24,9 +24,9 @@ export class MainGame extends Component {
 
 
     start() {
-        PhysicsSystem.instance.debugDrawFlags = EPhysicsDrawFlags.WIRE_FRAME
-            | EPhysicsDrawFlags.AABB
-            | EPhysicsDrawFlags.CONSTRAINT;
+        // PhysicsSystem.instance.debugDrawFlags = EPhysicsDrawFlags.WIRE_FRAME
+        //     | EPhysicsDrawFlags.AABB
+        //     | EPhysicsDrawFlags.CONSTRAINT;
         AudioManager.musicPlay("MainBGM", true);
         this.schedule(() => { GameEvent.emit(EventEnum.HeartBeat); }, 1.0);
         view.on("canvas-resize", this.resize, this);
