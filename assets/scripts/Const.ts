@@ -10,6 +10,6 @@ export class Const {
         Tractor: 1 << 5,
     }
     static Config = {
-        CoinScaleOnCargoBed: 0.78,
+        CoinScaleOnCargoBed: 0.77,
     }
 }
