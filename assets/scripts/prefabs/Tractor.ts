@@ -211,6 +211,9 @@ export class Tractor extends Component implements IActor {
 
                 let coin;
                 let array = GameGlobal.DroppedCoinsPool[this.lastPushTowerIndex];
+                if (array && array.length <= 0) {
+                    array = GameGlobal.DroppedCoinsPool[this.lastPushTowerIndex - 1];
+                }
                 if (array && array.length > 0) {
                     coin = array.pop();
                     if (coin) {
