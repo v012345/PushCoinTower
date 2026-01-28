@@ -27,8 +27,8 @@ export class CoinTowerManager extends Component {
 
     // }
     buildCoinDome() {
-        const domeRadius = 20;
-        const coinRadius = 1.37;
+        const domeRadius = 40;
+        const coinRadius = 1.8;
         let semiArcLength = 2 * Math.PI * domeRadius / 2;
         let circleNum = Math.floor(semiArcLength / (coinRadius * 2) / 2); // 半圆弧上硬币圈数
         for (let i = 0; i < circleNum + 2; i++) {

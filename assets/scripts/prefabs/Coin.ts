@@ -9,6 +9,7 @@ export class Coin extends Component {
     isDropped: boolean = false;
     canUse: boolean = true;
     index: number = 0;
+    hasPhysics: boolean = true;
     start() {
 
     }
@@ -21,7 +22,10 @@ export class Coin extends Component {
             let p2 = GameGlobal.Tractor.cargoBed.worldPosition.clone();
             p1.y = 0;
             p2.y = 0;
-            if (p1.z < p2.z && Vec3.distance(p1, p2) > 40) {
+            if (p1.z < p2.z && Vec3.distance(p1, p2) > 20) {
+                this.hasPhysics = false;
+                this.removePhysics();
+            } else if (p1.z < p2.z && Vec3.distance(p1, p2) > 40) {
                 this.removePhysics();
                 this.canUse = false;
                 GameGlobal.CoinsPool.delete(this);
@@ -45,9 +49,22 @@ export class Coin extends Component {
         collider.on('onCollisionEnter', this.onCollisionEnter, this);
     }
     drop(isDome: boolean) {
+        // if (isDome) {
+        //     let collider = this.node.addComponent(CylinderCollider);
+        //     let rb = this.node.addComponent(RigidBody);
+        //     collider.radius = 1.7;
+        //     collider.height = 0.7;
+        //     collider.center = v3(0, 0.4, 0);
+        //     rb.useGravity = true;
+        //     collider.setGroup(Const.PhysicsGroup.Coin);
+        //     collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
+        //     collider.on('onCollisionEnter', this.onCollisionEnter, this);
+        // } else {
         this.addPyhsics();
         let rb = this.node.getComponent(RigidBody);
         rb.applyImpulse(new Vec3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5));
+
+        // }
 
 
     }
