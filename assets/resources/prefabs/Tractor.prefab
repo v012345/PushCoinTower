@@ -42249,8 +42249,8 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 6.28,
-      "z": 0
+      "y": 1.133,
+      "z": -1.173
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -44947,8 +44947,8 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 7.856,
-      "z": 0
+      "y": 0.831,
+      "z": 4.273
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -44995,7 +44995,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 0
+      "z": -1.11
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -45006,9 +45006,9 @@
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 4.2,
-      "y": 3.8,
-      "z": 40
+      "x": 4.9,
+      "y": 7.3,
+      "z": 48.6
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -47398,7 +47398,7 @@
         "__id__": 3508
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [],
     "_prefab": {
       "__id__": 3696
@@ -47644,8 +47644,8 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 10.772,
-      "z": 1.4
+      "y": 4.73,
+      "z": -13.873
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -47703,8 +47703,8 @@
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 3.1,
-      "y": 7.9,
+      "x": 5.6,
+      "y": 13.3,
       "z": 40
     },
     "_mobility": 0,
@@ -47774,7 +47774,7 @@
       "__id__": 3521
     },
     "duration": 2,
-    "loop": false,
+    "loop": true,
     "simulationSpeed": 1,
     "playOnAwake": false,
     "gravityModifier": {
@@ -50095,7 +50095,7 @@
         "__id__": 3705
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": {
       "__id__": 3893
