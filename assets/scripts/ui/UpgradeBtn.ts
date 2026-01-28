@@ -78,7 +78,7 @@ export class LevelupBtn extends Component {
 
     update(deltaTime: number) {
         if (this.isShowMax) {
-            this.setGray(false);
+            this.setGray(true);
             return;
         }
         let playerMoney = Player.getMoney();
