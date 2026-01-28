@@ -31,10 +31,15 @@ export class CoinTower extends Component {
                     let i = 0
                     this.coinsNodes.forEach(coins => {
                         i++
-                        if (i >= this.coinsNodes.length - 3) {
+                        if (i >= 7) {
                             coins.getComponent(OneLayerOfCoins).scatter();
                         } else {
-                            coins.destroy();
+                            tween(coins)
+                                .to(0.5, { position: new Vec3(0, -6, 0) })
+                                .call(() => {
+                                    coins.destroy();
+                                })
+                                .start();
                         }
                     });
                 }
