@@ -44,13 +44,16 @@ export class CoinTowerManager extends Component {
                 let x = layerRadius * Math.cos(angle);
                 let z = layerRadius * Math.sin(angle);
                 let y = domeRadius * Math.cos(theta);
-                const polar = new Vec3(x, y, z);
-                let coin = instantiate(this.coinPrefab);
-                coin.setParent(this.domeCoinsNode);
-                coin.setPosition(polar);
-                coin.lookAt(this.domeCoinsNode.worldPosition);
-                coin.eulerAngles = new Vec3(coin.eulerAngles.x + 90, coin.eulerAngles.y, coin.eulerAngles.z);
-                coin.rotate(new Vec3(0, 1, 0), Math.random() * 360);
+                if (z < 5) {
+                    const polar = new Vec3(x, y, z);
+                    let coin = instantiate(this.coinPrefab);
+                    coin.setParent(this.domeCoinsNode);
+                    coin.setPosition(polar);
+                    coin.lookAt(this.domeCoinsNode.worldPosition);
+                    coin.eulerAngles = new Vec3(coin.eulerAngles.x + 90, coin.eulerAngles.y, coin.eulerAngles.z);
+                    coin.rotate(new Vec3(0, 1, 0), Math.random() * 360);
+                }
+
             }
         }
 
