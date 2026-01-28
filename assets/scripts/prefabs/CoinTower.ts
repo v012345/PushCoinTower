@@ -59,6 +59,15 @@ export class CoinTower extends Component {
             if (i % 2 == 0) {
                 coins.setRotationFromEuler(0, 30, 0);
             }
+            if (i < layerNum - 7) {
+                //优化后面看不到的硬币层
+                // coins.destroy();
+                coins.children.forEach(coin => {
+                    // console.log(coin.position.z);
+                    if (coin.position.z > 2)
+                        coin.destroy();
+                });
+            }
         }
         this.coinsNodes = this.node.children.filter(
             n => n.getComponent(OneLayerOfCoins) !== null
