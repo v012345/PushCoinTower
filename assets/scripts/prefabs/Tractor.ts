@@ -201,29 +201,41 @@ export class Tractor extends Component implements IActor {
     }
 
     collectCoins() {
-        this.scheduleOnce(() => {
-            if (Player.getMoney() < GameGlobal.CargoBedUp[this.cargoBedLevel][1]) {
-                if (!this.isUpgrading && !this.isUnloading) {
-                    let coin = GameGlobal.CoinsPool.pop();
-                    if (coin && coin.getComponent(Coin).canUse) {
-                        Player.addMoney(1);
-                        coin.node.getComponent(CylinderCollider)?.destroy();
-                        coin.node.getComponent(RigidBody)?.destroy();
-                        coin.node.getComponent(ConstantForce)?.destroy();
-                        coin.flyTo(this.cargoBed);
 
-                    }
+        if (Player.getMoney() < GameGlobal.CargoBedUp[this.cargoBedLevel][1]) {
+            if (!this.isUpgrading && !this.isUnloading) {
+
+                let coin;
+                const it = GameGlobal.CoinsPool.values().next();
+                if (!it.done) {
+                    coin = it.value;
+                    GameGlobal.CoinsPool.delete(coin);
+                }
+                if (coin) {
+                    Player.addMoney(1);
+                    coin.getComponent(Coin).removePhysics();
+                    coin.flyTo(this.cargoBed);
 
                 }
-            } else {
-                GameEvent.emit("CargoBedIsFull");
+
             }
-        });
+        } else {
+            GameEvent.emit("CargoBedIsFull");
+        }
     }
+
 
 
     update(deltaTime: number) {
         this.collectCoins();
+        if (this.speed != 0) {
+            GameEvent.emit("TractorMove");
+        }
+        if (!this.isBackForward) {
+            this.moveAlongPath.setSpeed(this.speed);
+        } else {
+            this.moveAlongPath.setSpeed(-20);
+        }
     }
 
     arrangeCoin(coin: Node) {
@@ -330,14 +342,7 @@ export class Tractor extends Component implements IActor {
         this.speed = 0;
     }
     lateUpdate(deltaTime: number): void {
-        if (this.speed != 0) {
-            GameEvent.emit("TractorMove");
-        }
-        if (!this.isBackForward) {
-            this.moveAlongPath.setSpeed(this.speed);
-        } else {
-            this.moveAlongPath.setSpeed(-20);
-        }
+
     }
 }
 
