@@ -28,7 +28,9 @@ export class CoinDome extends Component {
 
     collapse() {
         AudioManager.audioPlay("DomeCollapse", false);
-        GameEvent.emit(EventEnum.DomeCollapse);
+        this.scheduleOnce(() => {
+            GameEvent.emit(EventEnum.DomeCollapse);
+        }, 1);
         this.coins.children.forEach(coin => {
             coin.getComponent(Coin).addPyhsics();
             coin.getComponent(Coin).rigidBody.applyImpulse(v3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5));
