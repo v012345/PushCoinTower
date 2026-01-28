@@ -57518,12 +57518,12 @@
     "_isTrigger": false,
     "_center": {
       "__type__": "cc.Vec3",
-      "x": 8.4,
-      "y": 6,
+      "x": 10.7,
+      "y": 5.4,
       "z": 0
     },
     "_radius": 4.8,
-    "_height": 0.9,
+    "_height": 2.9,
     "_direction": 1,
     "_id": ""
   },
@@ -57547,12 +57547,12 @@
     "_isTrigger": false,
     "_center": {
       "__type__": "cc.Vec3",
-      "x": -7.9,
-      "y": 6,
+      "x": -11.6,
+      "y": 5.4,
       "z": 0
     },
     "_radius": 4.8,
-    "_height": 0.9,
+    "_height": 2.9,
     "_direction": 1,
     "_id": ""
   },
