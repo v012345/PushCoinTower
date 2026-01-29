@@ -22,7 +22,7 @@ export class CoinTower extends Component {
     xPos: number = 0;
     start() {
         GameEvent.on('PushedCoinTower', (towerIndex: number) => {
-            if (towerIndex - 4 > this.towerIndex) {
+            if (towerIndex - 5 > this.towerIndex) {
                 this.node.destroy();
                 // this.node.active = false;
             }

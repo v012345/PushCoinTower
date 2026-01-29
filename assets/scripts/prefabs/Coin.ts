@@ -48,12 +48,12 @@ export class Coin extends Component {
         if (this.node.worldPosition.y > 8) {
             i = 60 / Math.pow(this.node.worldPosition.y, 2);
         }
-        if (xPos > 0) {
-            this.rigidBody.applyImpulse(new Vec3(1 + i * 2, Math.random() * 10 - 5, 10 + i * 8));
-        } else {
-            this.rigidBody.applyImpulse(new Vec3(-(1 + i * 2), Math.random() * 10 - 5, 10 + i * 8));
-        }
-
+        // if (xPos > 0) {
+        //     this.rigidBody.applyImpulse(new Vec3(1 + i * 2, Math.random() * 10 - 5, 10 + i * 8));
+        // } else {
+        //     this.rigidBody.applyImpulse(new Vec3(-(1 + i * 2), Math.random() * 10 - 5, 10 + i * 8));
+        // }
+        this.rigidBody.applyImpulse(new Vec3(Math.random() * 10 - 5, Math.random() * 10 - 5, 10 + i * 8));
 
     }
     removePhysics() {
