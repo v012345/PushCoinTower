@@ -2,6 +2,7 @@ import { _decorator, Component, instantiate, Node, math, Prefab, Vec3 } from 'cc
 const { ccclass, property } = _decorator;
 import { CoinTower } from '../prefabs/CoinTower';
 import { GameGlobal } from '../GameGlobal';
+import { Coin } from '../prefabs/Coin';
 @ccclass('CoinTowerManager')
 export class CoinTowerManager extends Component {
     @property(Node)
@@ -18,6 +19,7 @@ export class CoinTowerManager extends Component {
     // Actors: Node;
     // @property
     // CoinTowerNumOfOneSide: number = 20;
+    DomeCoinsofLayers: Coin[][] = [[]];
     start() {
         this.spawnCoinTowers();
         this.buildCoinDome();
@@ -44,7 +46,7 @@ export class CoinTowerManager extends Component {
                 let x = layerRadius * Math.cos(angle);
                 let z = layerRadius * Math.sin(angle);
                 let y = domeRadius * Math.cos(theta);
-                if (z < 5) {
+                if (z < 3) {
                     const polar = new Vec3(x, y, z);
                     let coin = instantiate(this.coinPrefab);
                     coin.setParent(this.domeCoinsNode);
@@ -55,6 +57,9 @@ export class CoinTowerManager extends Component {
                 }
 
             }
+            let coin = instantiate(this.coinPrefab);
+            coin.setParent(this.domeCoinsNode);
+            coin.setPosition(new Vec3(0, domeRadius, 0));
         }
 
     }
