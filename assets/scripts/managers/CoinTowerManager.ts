@@ -69,6 +69,7 @@ export class CoinTowerManager extends Component {
                 } else {
                     coinTower.layerNum = 12 + i - 1;
                 }
+                coinTower.xPos = x;
                 coinTower.layerNum = 12 + i;
                 coinTower.level = GameGlobal.levelMap[i + 1] || 1;
                 coinTower.towerIndex = i;

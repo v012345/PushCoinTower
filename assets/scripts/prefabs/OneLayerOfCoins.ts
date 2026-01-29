@@ -15,11 +15,11 @@ export class OneLayerOfCoins extends Component {
     update(deltaTime: number) {
 
     }
-    scatter() {
+    scatter(xPos: number) {
         this.node.children.forEach(coin => {
 
             const rb = coin.getComponent(Coin);
-            rb.drop();
+            rb.drop(xPos);
         });
     }
 }

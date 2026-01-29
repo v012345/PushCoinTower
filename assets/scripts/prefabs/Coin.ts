@@ -32,7 +32,7 @@ export class Coin extends Component {
         this.collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
         this.collider.on('onCollisionEnter', this.onCollisionEnter, this);
         GameEvent.on(EventEnum.PushedCoinTower, (towerIndex: number) => {
-            if (this.towerIndex < towerIndex - 2) {
+            if (this.towerIndex < towerIndex - 1) {
                 this.rigidBody.type = RigidBody.Type.STATIC;
             }
         }, this);
@@ -42,14 +42,18 @@ export class Coin extends Component {
             }, 5);
         }, this);
     }
-    drop() {
+    drop(xPos: number) {
         this.addPyhsics();
         let i = 0
         if (this.node.worldPosition.y > 8) {
-
             i = 60 / Math.pow(this.node.worldPosition.y, 2);
         }
-        this.rigidBody.applyImpulse(new Vec3(Math.random() * 10 - 5, Math.random() * 10 - 5, 10 + i * 8));
+        if (xPos > 0) {
+            this.rigidBody.applyImpulse(new Vec3(1 + i * 2, Math.random() * 10 - 5, 10 + i * 8));
+        } else {
+            this.rigidBody.applyImpulse(new Vec3(-(1 + i * 2), Math.random() * 10 - 5, 10 + i * 8));
+        }
+
 
     }
     removePhysics() {

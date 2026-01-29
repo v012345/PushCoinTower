@@ -19,7 +19,7 @@ export class CoinTower extends Component {
     hasBePushed: boolean = false;
     coinsNodes: Node[] = [];
     towerIndex: number = 0;
-
+    xPos: number = 0;
     start() {
         GameEvent.on('PushedCoinTower', (towerIndex: number) => {
             if (towerIndex - 4 > this.towerIndex) {
@@ -44,7 +44,7 @@ export class CoinTower extends Component {
                             j = 0;
                         }
                         if (i >= j) {
-                            coins.getComponent(OneLayerOfCoins).scatter();
+                            coins.getComponent(OneLayerOfCoins).scatter(this.xPos);
                         } else {
                             tween(coins)
                                 .to(0.5, { position: new Vec3(0, -6, 0) })
