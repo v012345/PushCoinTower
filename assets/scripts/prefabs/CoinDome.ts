@@ -43,9 +43,9 @@ export class CoinDome extends Component {
                 layer.forEach(coin => {
                     coin.addPyhsics();
                     coin.rigidBody.applyImpulse(v3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5));
-                    coin.constantForce.force = new Vec3(0, -9.8 * 9, 0);
+                    coin.constantForce.force = new Vec3(0, -9.8 * 10, 0);
                 });
-            }, i * 0.3);
+            }, i * 0.2);
             i++;
 
         });
