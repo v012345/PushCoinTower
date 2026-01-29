@@ -22,7 +22,7 @@ export class SpeedBtn extends Component {
     originalScale: Vec3;
     start() {
         this.originalScale = this.node.getParent().scale.clone();
-        this.setDisplayPrice(GameGlobal.GearsUp[GameGlobal.Tractor.speedLevel + 1]);
+        this.setDisplayPrice(GameGlobal.SpeedUp[GameGlobal.Tractor.speedLevel + 1][0]);
         if (screen.windowSize.height > screen.windowSize.width) {
             this.originalScale = new Vec3(1.3, 1.3, 1.3);
         } else {
