@@ -58,6 +58,7 @@ export class Tractor extends Component implements IActor {
     blades: Node[] = [];
     isUnloading: boolean = false; // 是否正在卸货中
     lastPushTowerIndex = -1;
+    isReArranging: boolean = false;
     start() {
         Player.setLeadAcotor(this);
 
@@ -128,9 +129,10 @@ export class Tractor extends Component implements IActor {
                     this.coinSizeX = GameGlobal.CoinSize[this.cargoBedLevel][0];
                     this.coinSizeY = GameGlobal.CoinSize[this.cargoBedLevel][1];
                     this.coinSizeZ = GameGlobal.CoinSize[this.cargoBedLevel][2];
-                    this.reArrangeAllCoins()
                     this.cargoBed.worldPosition = bed.getChildByName("CargoBed").getChildByName("CargoArea").worldPosition;
                     this.setWhereToPushCoin(bed.getChildByName("CargoBed").getChildByName("CargoArea"));
+                    this.scheduleOnce(() => { this.reArrangeAllCoins() });
+
 
 
                     this.isUpgrading = false;
@@ -224,7 +226,7 @@ export class Tractor extends Component implements IActor {
     collectCoins() {
 
         if (Player.getMoney() < GameGlobal.CargoBedUp[this.cargoBedLevel][1]) {
-            if (!this.isUpgrading && !this.isUnloading) {
+            if (!this.isUpgrading && !this.isUnloading && !this.isReArranging) {
 
                 let coin;
                 let array = GameGlobal.DroppedCoinsPool[this.lastPushTowerIndex];
@@ -274,8 +276,10 @@ export class Tractor extends Component implements IActor {
         let p = this.pointsOfOneLayer[this.hasPutCoinNumOfOneLayer % this.coinNumOfOneLayer];
         this.hasPutCoinNumOfOneLayer++;
         coin.setParent(p);
+        coin.active = true
         coin.position = v3(0, this.currentLayerHeight, 0);
         if (this.hasPutCoinNumOfOneLayer % this.coinNumOfOneLayer == 0) {
+            this.hasPutCoinNumOfOneLayer = 0
             this.currentLayerHeight += this.coinSizeY;
         }
         // coin.position.x += this.coinSizeX / 2;
@@ -292,12 +296,16 @@ export class Tractor extends Component implements IActor {
         // }
     }
     reArrangeAllCoins() {
+        this.isReArranging = true;
         this.whereToPutNextCoin = this.firstCoinPosInCargo.clone();
         this.currentLayerHeight = 0.3;
+        this.hasPutCoinNumOfOneLayer = 0
         this.coinsInCargoBed.forEach(coin => {
             this.loadCoin(coin);
             // coin.eulerAngles = new Vec3(Math.random() * 360, Math.random() * 360, Math.random() * 360);
         });
+        this.scheduleOnce(() => { this.isReArranging = false; }, 0.5);
+
     }
 
 

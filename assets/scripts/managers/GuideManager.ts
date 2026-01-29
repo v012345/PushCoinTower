@@ -28,6 +28,13 @@ export class GuideManager extends Component {
     cargoBedLevel: number = -1;
     isGuiding: boolean = false;
     stopTime: number = 0;
+    guideMatrix: [[false, false, false],
+        [false, false, false],
+        [false, false, false]];
+    guideCondtionMatrix: [[() => boolean, () => boolean, () => boolean],
+        [() => boolean, () => boolean, () => boolean],
+        [() => boolean, () => boolean, () => boolean]];
+
     start() {
         let cb = () => {
             this.stopTime += 1;
@@ -72,6 +79,21 @@ export class GuideManager extends Component {
             GameEvent.off('TractorMove', this.hasLearnedMove, this);
             GameEvent.on('TractorMove', this.hasLearnedMove, this);
         }, 2);
+
+        this.guideCondtionMatrix = [[
+            () => { return Player.getMoney() >= GameGlobal.CargoBedUp[1][0] && GameGlobal.Tractor.cargoBedLevel < 2; },
+            () => { return true; },
+            () => { return true; }
+        ], [
+            () => { return true; },
+            () => { return true; },
+            () => { return true; }
+        ], [
+            () => { return true; },
+            () => { return true; },
+            () => { return true; }
+        ]
+        ]
 
     }
     showCargoBedIsFullTip() {
