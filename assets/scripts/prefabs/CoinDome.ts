@@ -28,6 +28,7 @@ export class CoinDome extends Component {
     }
 
     collapse() {
+        GameEvent.emit(EventEnum.DomeBeCollided);
         AudioManager.audioPlay("DomeCollapse", false);
         this.scheduleOnce(() => {
             GameEvent.emit(EventEnum.DomeCollapse);
@@ -38,16 +39,28 @@ export class CoinDome extends Component {
         //     coin.getComponent(Coin).constantForce.force = new Vec3(0, -9.8 * 9, 0);
         // })
         let i = 0;
+        let j = 3;
         GameGlobal.DomeCoinsofLayers.forEach(layer => {
-            this.scheduleOnce(() => {
+            if (i > j) {
+                this.scheduleOnce(() => {
+                    layer.forEach(coin => {
+                        coin.addPyhsics();
+                        coin.rigidBody.applyImpulse(v3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5));
+                        coin.constantForce.force = new Vec3(0, -9.8 * 10, 0);
+                    });
+                }, (i - j) * 0.2);
+            } else {
                 layer.forEach(coin => {
+                    let o = v3(0, 15, 195);
+                    let a = coin.node.worldPosition.clone();
+                    let force = a.subtract(o).normalize().multiplyScalar(50);
                     coin.addPyhsics();
-                    coin.rigidBody.applyImpulse(v3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5));
+
+                    coin.rigidBody.applyImpulse(force);
                     coin.constantForce.force = new Vec3(0, -9.8 * 10, 0);
                 });
-            }, i * 0.2);
+            }
             i++;
-
         });
     }
 

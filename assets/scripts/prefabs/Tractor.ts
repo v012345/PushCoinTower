@@ -70,7 +70,7 @@ export class Tractor extends Component implements IActor {
 
         GameEvent.on(EventEnum.CollideCoinTower, this.showSparkEffect, this);
 
-        GameEvent.on(EventEnum.DomeCollapse, () => {
+        GameEvent.on(EventEnum.DomeBeCollided, () => {
             this.TrainCollideEffect.children.forEach(effectNode => {
                 effectNode.getComponent(ParticleSystem).play();
             });

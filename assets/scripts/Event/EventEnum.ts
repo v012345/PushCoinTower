@@ -15,4 +15,5 @@ export class EventEnum {
     static DomeCollapse = "DomeCollapse"; // Dome collapse event
     static BtnClicked = "BtnClicked"
     static PushedCoinTower = "PushedCoinTower"; // Pushed coin tower event
+    static DomeBeCollided = "DomeBeCollided"; // Dome be collided event
 }
