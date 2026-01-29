@@ -57,9 +57,9 @@ export class Coin extends Component {
 
     }
     removePhysics() {
+        this.constantForce?.destroy();
         this.collider?.destroy();
         this.rigidBody?.destroy();
-        this.constantForce?.destroy();
     }
 
     onCollisionEnter(event: ICollisionEvent) {

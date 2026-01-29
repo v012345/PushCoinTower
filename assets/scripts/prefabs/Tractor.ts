@@ -30,7 +30,10 @@ export class Tractor extends Component implements IActor {
     speed: number = 0;
     isBackForward: boolean = false;
 
-
+    coinNumOfOneLayer: number = 0;
+    hasPutCoinNumOfOneLayer: number = 0;
+    pointsOfOneLayer: Node[] = [];
+    currentLayerHeight: number = 0;
 
     @property(Node)
     cargoBed: Node = null;
@@ -121,11 +124,15 @@ export class Tractor extends Component implements IActor {
                     this.whereToPutNextCoin = GameGlobal.FirstCoinPosInCargo[this.cargoBedLevel].clone()
                     this.cargoBedX = -this.whereToPutNextCoin.x
                     this.cargoBedZ = -this.whereToPutNextCoin.z
+
                     this.coinSizeX = GameGlobal.CoinSize[this.cargoBedLevel][0];
                     this.coinSizeY = GameGlobal.CoinSize[this.cargoBedLevel][1];
                     this.coinSizeZ = GameGlobal.CoinSize[this.cargoBedLevel][2];
                     this.reArrangeAllCoins()
                     this.cargoBed.worldPosition = bed.getChildByName("CargoBed").getChildByName("CargoArea").worldPosition;
+                    this.setWhereToPushCoin(bed.getChildByName("CargoBed").getChildByName("CargoArea"));
+
+
                     this.isUpgrading = false;
                 }
             });
@@ -178,6 +185,14 @@ export class Tractor extends Component implements IActor {
             }
         });
     }
+
+    setWhereToPushCoin(Node: Node) {
+        this.coinNumOfOneLayer = Node.children.length;
+        this.hasPutCoinNumOfOneLayer = 0;
+        this.pointsOfOneLayer = Node.children;
+        this.currentLayerHeight = 0.3;
+    }
+
     init() {
 
         this.sawBlades.forEach((blade, index) => {
@@ -191,6 +206,8 @@ export class Tractor extends Component implements IActor {
             cargoBed.active = (index + 1) == this.cargoBedLevel;
             if (cargoBed.active) {
                 this.cargoBed.worldPosition = cargoBed.getChildByName("CargoBed").getChildByName("CargoArea").worldPosition;
+                this.setWhereToPushCoin(cargoBed.getChildByName("CargoBed").getChildByName("CargoArea"));
+
             }
         });
         this.speed = 0;
@@ -254,21 +271,29 @@ export class Tractor extends Component implements IActor {
 
     loadCoin(coin: Node) {
         AudioManager.audioPlay("loadCoin", false);
-        coin.position = this.whereToPutNextCoin;
-        coin.position.x += this.coinSizeX / 2;
-        coin.position.z += this.coinSizeZ / 2;
-        this.whereToPutNextCoin.x += this.coinSizeX;
-        if (this.whereToPutNextCoin.x + this.coinSizeX > this.cargoBedX) {
-            this.whereToPutNextCoin.x = -this.cargoBedX;
-            this.whereToPutNextCoin.z += this.coinSizeZ;
-            if (this.whereToPutNextCoin.z + this.coinSizeZ > this.cargoBedZ) {
-                this.whereToPutNextCoin.z = -this.cargoBedZ;
-                this.whereToPutNextCoin.y += this.coinSizeY;
-            }
+        let p = this.pointsOfOneLayer[this.hasPutCoinNumOfOneLayer % this.coinNumOfOneLayer];
+        this.hasPutCoinNumOfOneLayer++;
+        coin.setParent(p);
+        coin.position = v3(0, this.currentLayerHeight, 0);
+        if (this.hasPutCoinNumOfOneLayer % this.coinNumOfOneLayer == 0) {
+            this.currentLayerHeight += this.coinSizeY;
         }
+        // coin.position.x += this.coinSizeX / 2;
+        // coin.oz = coin.position.z;
+        // coin.position.z += this.coinSizeZ / 2;
+        // this.whereToPutNextCoin.x += this.coinSizeX;
+        // if (this.whereToPutNextCoin.x + this.coinSizeX > this.cargoBedX) {
+        //     this.whereToPutNextCoin.x = -this.cargoBedX;
+        //     this.whereToPutNextCoin.z += this.coinSizeZ;
+        //     if (this.whereToPutNextCoin.z + this.coinSizeZ > this.cargoBedZ) {
+        //         this.whereToPutNextCoin.z = -this.cargoBedZ;
+        //         this.whereToPutNextCoin.y += this.coinSizeY;
+        //     }
+        // }
     }
     reArrangeAllCoins() {
         this.whereToPutNextCoin = this.firstCoinPosInCargo.clone();
+        this.currentLayerHeight = 0.3;
         this.coinsInCargoBed.forEach(coin => {
             this.loadCoin(coin);
             // coin.eulerAngles = new Vec3(Math.random() * 360, Math.random() * 360, Math.random() * 360);

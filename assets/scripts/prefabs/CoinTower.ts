@@ -64,8 +64,8 @@ export class CoinTower extends Component {
 
     }
     removeCollider() {
-        this.node.getComponent(CylinderCollider)?.destroy();
         this.node.getComponent(RigidBody)?.destroy();
+        this.node.getComponent(CylinderCollider)?.destroy();
     }
     buildTower(layerNum: number) {
         if (this.towerIndex == 0) {
