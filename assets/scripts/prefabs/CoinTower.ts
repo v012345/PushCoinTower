@@ -39,7 +39,11 @@ export class CoinTower extends Component {
                     let i = 0
                     this.coinsNodes.forEach(coins => {
                         i++
-                        if (i >= 8) {
+                        let j = 8;
+                        if (this.towerIndex <= 0) {
+                            j = 0;
+                        }
+                        if (i >= j) {
                             coins.getComponent(OneLayerOfCoins).scatter();
                         } else {
                             tween(coins)

@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, tween, ConstantForce, PhysicsSystem, RigidBody, v3, Vec3, PhysicsGroup, CylinderCollider, ICollisionEvent } from 'cc';
+import { _decorator, Component, Node, tween, ConstantForce, PhysicsSystem, RigidBody, v3, Vec3, PhysicsGroup, CylinderCollider, ICollisionEvent, math } from 'cc';
 import { GameGlobal } from '../GameGlobal';
 import { Const } from '../Const';
 import { Utils } from '../Utils';
@@ -32,7 +32,7 @@ export class Coin extends Component {
         this.collider.setMask(Const.PhysicsGroup.Coin | Const.PhysicsGroup.DroppedCoin | Const.PhysicsGroup.Ground | Const.PhysicsGroup.Tractor);
         this.collider.on('onCollisionEnter', this.onCollisionEnter, this);
         GameEvent.on(EventEnum.PushedCoinTower, (towerIndex: number) => {
-            if (this.towerIndex < towerIndex - 1) {
+            if (this.towerIndex < towerIndex - 2) {
                 this.rigidBody.type = RigidBody.Type.STATIC;
             }
         }, this);
@@ -44,7 +44,12 @@ export class Coin extends Component {
     }
     drop() {
         this.addPyhsics();
-        this.rigidBody.applyImpulse(new Vec3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5));
+        let i = 0
+        if (this.node.worldPosition.y > 8) {
+
+            i = 60 / Math.pow(this.node.worldPosition.y, 2);
+        }
+        this.rigidBody.applyImpulse(new Vec3(Math.random() * 10 - 5, Math.random() * 10 - 5, 10 + i * 8));
 
     }
     removePhysics() {
