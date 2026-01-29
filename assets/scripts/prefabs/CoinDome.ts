@@ -4,6 +4,7 @@ import { AudioManager } from '../PASDK/AudioManager';
 import { GameEvent } from '../managers/EventManager';
 import { EventEnum } from '../Event/EventEnum';
 import { Const } from '../Const';
+import { GameGlobal } from '../GameGlobal';
 const { ccclass, property } = _decorator;
 
 @ccclass('CoinDome')
@@ -31,11 +32,23 @@ export class CoinDome extends Component {
         this.scheduleOnce(() => {
             GameEvent.emit(EventEnum.DomeCollapse);
         }, 1);
-        this.coins.children.forEach(coin => {
-            coin.getComponent(Coin).addPyhsics();
-            coin.getComponent(Coin).rigidBody.applyImpulse(v3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5));
-            coin.getComponent(Coin).constantForce.force = new Vec3(0, -9.8 * 9, 0);
-        })
+        // this.coins.children.forEach(coin => {
+        //     coin.getComponent(Coin).addPyhsics();
+        //     coin.getComponent(Coin).rigidBody.applyImpulse(v3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5));
+        //     coin.getComponent(Coin).constantForce.force = new Vec3(0, -9.8 * 9, 0);
+        // })
+        let i = 0;
+        GameGlobal.DomeCoinsofLayers.forEach(layer => {
+            this.scheduleOnce(() => {
+                layer.forEach(coin => {
+                    coin.addPyhsics();
+                    coin.rigidBody.applyImpulse(v3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5));
+                    coin.constantForce.force = new Vec3(0, -9.8 * 9, 0);
+                });
+            }, i * 0.3);
+            i++;
+
+        });
     }
 
     update(deltaTime: number) {

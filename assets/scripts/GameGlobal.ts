@@ -18,6 +18,7 @@ export class GameGlobal {
     public static cameraMoving: boolean = false;
     public static effectLay: Node;
     public static UILayer: Node;
+    public static DomeCoinsofLayers: Coin[][] = [[]];
     // public static coinNumber: CoinNumber;
     // public static coin: number = 0;
     // public static train: Train;

@@ -23,6 +23,7 @@ export class CoinTowerManager extends Component {
     start() {
         this.spawnCoinTowers();
         this.buildCoinDome();
+        GameGlobal.DomeCoinsofLayers = this.DomeCoinsofLayers;
     }
 
     // update(deltaTime: number) {
@@ -33,6 +34,11 @@ export class CoinTowerManager extends Component {
         const coinRadius = 1.8;
         let semiArcLength = 2 * Math.PI * domeRadius / 2;
         let circleNum = Math.floor(semiArcLength / (coinRadius * 2) / 2); // 半圆弧上硬币圈数
+        let coin = instantiate(this.coinPrefab);
+        coin.setParent(this.domeCoinsNode);
+        coin.setPosition(new Vec3(0, domeRadius, 0));
+        this.DomeCoinsofLayers[0].push(coin.getComponent(Coin));
+        // 生成硬币穹顶
         for (let i = 0; i < circleNum + 2; i++) {
             let arcLength = 2 * coinRadius * i;
             let theta = arcLength / domeRadius;
@@ -40,6 +46,7 @@ export class CoinTowerManager extends Component {
             let layerCircumference = 2 * Math.PI * layerRadius;
             // 本层硬币数量
             let coinNum = Math.floor(layerCircumference / (coinRadius * 2));
+            this.DomeCoinsofLayers[i + 1] = [];
             // 生成本层硬币
             for (let j = 0; j < coinNum; j++) {
                 let angle = (2 * Math.PI / coinNum) * j;
@@ -54,12 +61,11 @@ export class CoinTowerManager extends Component {
                     coin.lookAt(this.domeCoinsNode.worldPosition);
                     coin.eulerAngles = new Vec3(coin.eulerAngles.x + 90, coin.eulerAngles.y, coin.eulerAngles.z);
                     coin.rotate(new Vec3(0, 1, 0), Math.random() * 360);
+                    this.DomeCoinsofLayers[i + 1].push(coin.getComponent(Coin));
                 }
 
             }
-            let coin = instantiate(this.coinPrefab);
-            coin.setParent(this.domeCoinsNode);
-            coin.setPosition(new Vec3(0, domeRadius, 0));
+
         }
 
     }
