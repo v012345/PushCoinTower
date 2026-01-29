@@ -59,6 +59,8 @@ export class Tractor extends Component implements IActor {
     isUnloading: boolean = false; // 是否正在卸货中
     lastPushTowerIndex = -1;
     isReArranging: boolean = false;
+    @property(Node)
+    TrainCollideEffect: Node = null;
     start() {
         Player.setLeadAcotor(this);
 
@@ -67,6 +69,12 @@ export class Tractor extends Component implements IActor {
         this.init();
 
         GameEvent.on(EventEnum.CollideCoinTower, this.showSparkEffect, this);
+
+        GameEvent.on(EventEnum.DomeCollapse, () => {
+            this.TrainCollideEffect.children.forEach(effectNode => {
+                effectNode.getComponent(ParticleSystem).play();
+            });
+        }, this);
 
         GameEvent.on(EventEnum.CargoBedUpgrade, this.upgradeCargoBed, this);
         GameEvent.on(EventEnum.SawBladeUpgrade, this.upgradeSawBlade, this);
