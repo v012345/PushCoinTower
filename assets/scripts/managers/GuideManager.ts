@@ -28,9 +28,6 @@ export class GuideManager extends Component {
     cargoBedLevel: number = -1;
     isGuiding: boolean = false;
     stopTime: number = 0;
-    guideMatrix: [[false, false, false],
-        [false, false, false],
-        [false, false, false]];
     guideCondtionMatrix: [[() => boolean, () => boolean, () => boolean],
         [() => boolean, () => boolean, () => boolean],
         [() => boolean, () => boolean, () => boolean]];
@@ -79,21 +76,70 @@ export class GuideManager extends Component {
             GameEvent.off('TractorMove', this.hasLearnedMove, this);
             GameEvent.on('TractorMove', this.hasLearnedMove, this);
         }, 2);
+        let guideMatrix = [[false, false, false],
+        [false, false, false],
+        [false, false, false]];
 
         this.guideCondtionMatrix = [[
-            () => { return Player.getMoney() >= GameGlobal.CargoBedUp[1][0] && GameGlobal.Tractor.cargoBedLevel < 2; },
-            () => { return true; },
-            () => { return true; }
+            () => { return Player.getMoney() >= GameGlobal.CargoBedUp[2][0] && GameGlobal.Tractor.cargoBedLevel < 2; },
+            () => { return Player.getMoney() >= GameGlobal.CargoBedUp[3][0] && GameGlobal.Tractor.cargoBedLevel < 3; },
+            () => { return Player.getMoney() >= GameGlobal.CargoBedUp[4][0] && GameGlobal.Tractor.cargoBedLevel < 4; }
         ], [
-            () => { return true; },
-            () => { return true; },
-            () => { return true; }
+            () => { return Player.getMoney() >= GameGlobal.GearsUp[2] && GameGlobal.Tractor.sawBladeLevel < 2; },
+            () => { return Player.getMoney() >= GameGlobal.GearsUp[3] && GameGlobal.Tractor.sawBladeLevel < 3; },
+            () => { return Player.getMoney() >= GameGlobal.GearsUp[4] && GameGlobal.Tractor.sawBladeLevel < 4; }
         ], [
-            () => { return true; },
-            () => { return true; },
-            () => { return true; }
+            () => { return Player.getMoney() >= GameGlobal.SpeedUp[2][0] && GameGlobal.Tractor.speedLevel < 2; },
+            () => { return Player.getMoney() >= GameGlobal.SpeedUp[3][0] && GameGlobal.Tractor.speedLevel < 3; },
+            () => { return Player.getMoney() >= GameGlobal.SpeedUp[4][0] && GameGlobal.Tractor.speedLevel < 4; }
         ]
         ]
+        let LevelCondtionMatrix = [[
+            () => { return GameGlobal.Tractor.cargoBedLevel >= 2; },
+            () => { return GameGlobal.Tractor.cargoBedLevel >= 3; },
+            () => { return GameGlobal.Tractor.cargoBedLevel >= 4; }
+        ], [
+            () => { return GameGlobal.Tractor.sawBladeLevel >= 2; },
+            () => { return GameGlobal.Tractor.sawBladeLevel >= 3; },
+            () => { return GameGlobal.Tractor.sawBladeLevel >= 4; }
+        ], [
+            () => { return GameGlobal.Tractor.speedLevel >= 2; },
+            () => { return GameGlobal.Tractor.speedLevel >= 3; },
+            () => { return GameGlobal.Tractor.speedLevel >= 4; }
+        ]
+        ]
+        let needToClickBtn =
+            [[this.cargoBedUpBtn, this.cargoBedUpBtn, this.cargoBedUpBtn],
+            [this.sawBladeUpBtn, this.sawBladeUpBtn, this.sawBladeUpBtn],
+            [this.speedUpBtn, this.speedUpBtn, this.speedUpBtn]]
+        GameEvent.on(EventEnum.HeartBeat, () => {
+            if (GameGlobal.GameOver) {
+                this.handNode.active = false;
+                return;
+            }
+            if (!this.isGuiding) {
+                for (let i = 0; i < 3; i++) {
+                    for (let j = 0; j < 3; j++) {
+                        if (!guideMatrix[j][i]) {
+                            if (this.guideCondtionMatrix[j][i]()) {
+                                let btn = needToClickBtn[j][i];
+                                let button_pos = btn.worldPosition.clone();
+                                let uiTransform = this.uiLayer.getComponent(UITransform);
+                                let pos_nodeSpace = uiTransform.convertToNodeSpaceAR(new Vec3(button_pos.x, button_pos.y, 0));
+                                this.handNode.setPosition(pos_nodeSpace);
+                                // this.handNode.setPosition(this.sawBladeUpBtn.getPosition());
+                                this.handNode.active = true;
+                                return;
+                            } else {
+                                if (LevelCondtionMatrix[j][i]()) {
+                                    guideMatrix[j][i] = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }, this);
 
     }
     showCargoBedIsFullTip() {

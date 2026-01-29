@@ -171,6 +171,9 @@ export class Tractor extends Component implements IActor {
     upgradeSpeed() {
         AudioManager.audioPlay("FunclevelUp", false);
         this.speedLevel++;
+        if (this.speedLevel > 4) {
+            this.speedLevel = 4
+        }
         this.speedupEffectNode.children.forEach((effect, index) => {
             effect.getComponent(ParticleSystem).play();
         });
