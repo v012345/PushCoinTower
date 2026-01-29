@@ -82,6 +82,7 @@ export class LevelupBtn extends Component {
             this.setGray(true);
             return;
         }
+        if (this.isReceivingCoins) return;
         let playerMoney = Player.getMoney();
         if (playerMoney < this.price) {
             this.setGray(true);
@@ -151,6 +152,14 @@ export class LevelupBtn extends Component {
                         .to(1, { opacity: .0 })
                         .start()
                 }, 1);
+
+                this.isReceivingCoins = true;
+                this.scheduleOnce(() => {
+                    Utils.BtnEffect(this.node.getParent(), 1.1);
+                }, 1);
+                this.scheduleOnce(() => {
+                    this.isReceivingCoins = false;
+                }, 1.5);
 
                 return
             }

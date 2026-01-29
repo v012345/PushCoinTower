@@ -49,6 +49,19 @@ export class Utils {
             .start();
     }
 
+    public static BtnEffect(node: Node, t: number) {
+        node.setScale(Vec3.ZERO);
+        tween(node)
+            .to(0.15, { scale: v3(1 * t, 1 * t, 1 * t) })
+            .to(.06, { scale: v3(1.4 * t, 0.8 * t, 1 * t) })
+            .to(.12, { scale: v3(0.8 * t, 1.2 * t, 1 * t) })
+            .to(.07, { scale: v3(1.2 * t, 0.7 * t, 1 * t) })
+            .to(.07, { scale: v3(.85 * t, 1.1 * t, 1 * t) })
+            .to(.07, { scale: v3(1 * t, 1 * t, 1 * t) })
+            .start();
+    }
+
+
 }
 
 
