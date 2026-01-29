@@ -76,6 +76,7 @@ export class LevelupBtn extends Component {
         this.node.getChildByName("cost").getComponent('cc.Label').string = cost.toString();
     }
 
+    isReceivingCoins: boolean = false;
     update(deltaTime: number) {
         if (this.isShowMax) {
             this.setGray(true);
@@ -89,12 +90,14 @@ export class LevelupBtn extends Component {
             this.isBreathing = false;
         } else {
             this.setGray(false);
-            if (this.isBreathing) return;
-            this.isBreathing = true;
             if (this.isTouching) return;
+            if (this.isReceivingCoins) return;
+            if (this.isBreathing) return;
             Utils.breathEffect(this.node.getParent());
+            this.isBreathing = true;
         }
     }
+
 
     setGray(isGray: boolean) {
         this.node.getComponent('cc.Sprite').grayscale = isGray;
