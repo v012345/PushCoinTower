@@ -1,4 +1,4 @@
-import { _decorator, Component, instantiate, Node, tween, ITriggerEvent, MeshRenderer, Prefab, Collider, Vec3 } from 'cc';
+import { _decorator, Component, instantiate, Node, tween, ITriggerEvent, MeshRenderer, Prefab, Collider, Vec3, CylinderCollider, RigidBody } from 'cc';
 import { OneLayerOfCoins } from './OneLayerOfCoins';
 import { GameGlobal } from '../GameGlobal';
 import { AudioManager } from '../PASDK/AudioManager';
@@ -33,6 +33,7 @@ export class CoinTower extends Component {
             if (event.otherCollider.node.name == "TractorGearsCollider") {
                 let tractor = event.otherCollider.node.getParent().getComponent(Tractor);
                 if (!this.hasBePushed && tractor.sawBladeLevel >= this.level) {
+                    this.removeCollider();
                     AudioManager.audioStop("TowerCollapse");
                     AudioManager.audioPlay("TowerCollapse", false);
                     this.hasBePushed = true;
@@ -62,7 +63,14 @@ export class CoinTower extends Component {
     update(deltaTime: number) {
 
     }
+    removeCollider() {
+        this.node.getComponent(CylinderCollider)?.destroy();
+        this.node.getComponent(RigidBody)?.destroy();
+    }
     buildTower(layerNum: number) {
+        if (this.towerIndex == 0) {
+            this.removeCollider();
+        }
         // 至少15层
         for (let i = 0; i < layerNum; i++) {
             const coins = instantiate(this.oneLayerOfCoins);

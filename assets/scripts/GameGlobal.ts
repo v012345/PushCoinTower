@@ -71,9 +71,9 @@ export class GameGlobal {
     };
     public static SpeedUp: Record<number, Array<number>> = {
         1: [0, 10],
-        2: [30, 15],
-        3: [50, 20],
-        4: [100, 25],
+        2: [30, 12],
+        3: [50, 15],
+        4: [100, 17],
     };
     public static FirstCoinPosInCargo: Record<number, Vec3> = {
         1: new Vec3(-3, 0.3, -3),
