@@ -45,10 +45,10 @@ export class CoinDome extends Component {
                 this.scheduleOnce(() => {
                     layer.forEach(coin => {
                         coin.addPyhsics();
-                        coin.rigidBody.applyImpulse(v3(Math.random() * 10 - 5, Math.random() * 10 - 5, Math.random() * 10 - 5));
+                        coin.rigidBody.applyImpulse(v3(Math.random() * 10 - 5, Math.random() * 10 - 30, Math.random() * 10 - 5));
                         coin.constantForce.force = new Vec3(0, -9.8 * 10, 0);
                     });
-                }, (i - j) * 0.2);
+                }, (i - j) * 0.1);
             } else {
                 layer.forEach(coin => {
                     let o = v3(0, 15, 195);
