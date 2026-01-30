@@ -1,7 +1,7 @@
 import { _decorator, Component, Node, tween, PhysicsSystem, EPhysicsDrawFlags, Camera, UIOpacity, screen, view, Vec3, ResolutionPolicy, UITransform, Widget, v3, input, Input } from 'cc';
 import { GameGlobal } from './GameGlobal';
 import { AudioManager } from "./PASDK/AudioManager";
-import { UIAdjust, UIAdjustType } from './Utils/UIAdjust';
+import { UIAdjust, UIAdjustType } from '../Vm3View/scripts/UIAdjust';
 import { LeadActor } from './LeadActor';
 import { Vendor } from './Vendor';
 import { EventEnum } from './Event/EventEnum';
@@ -106,7 +106,7 @@ export class MainGame extends Component {
                 } else {
                     v.type = UIAdjustType.竖屏;
                 }
-                v.updateImpl();
+                // v.updateImpl();
             })
 
         } else {

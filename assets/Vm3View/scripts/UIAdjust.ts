@@ -5,8 +5,7 @@ const { ccclass, property, executeInEditMode } = _decorator;
 
 export enum UIAdjustType {
     横屏 = "横屏", 竖屏 = "竖屏",
-    方块竖屏 = "方块竖屏",
-    方块横屏 = "方块横屏"
+    方块屏 = "方块屏"
 }
 ccenum(UIAdjustType)
 
@@ -62,7 +61,6 @@ export class UIAdjust extends Component {
     private _widget: Widget;
     private _type: UIAdjustType
     private _saveAttrObj: { [key: string]: UIAdjustConfig } = {};
-    private _isFirstUpdate = true;
 
     start() {
 
@@ -235,15 +233,11 @@ export class UIAdjust extends Component {
         return this._saveAttrObj[this._type];
     }
     update(deltaTime: number) {
-        this.updateImpl();
-    }
-    updateImpl() {
         if (EDITOR) {
             //编辑器模式下自动检测组件
             this._widget = this.getComponent(Widget);
         }
-        if (this._type != this.type || this._isFirstUpdate) {
-            this._isFirstUpdate = false;
+        if (this._type != this.type) {
             this._type = this.type;
             this.conf2node();
             // console.log(" conf2node:", this.node.getPathInHierarchy());

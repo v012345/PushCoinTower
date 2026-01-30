@@ -32,6 +32,10 @@ export class CoinDome extends Component {
         AudioManager.audioPlay("DomeCollapse", false);
         this.scheduleOnce(() => {
             GameEvent.emit(EventEnum.DomeCollapse);
+            this.scheduleOnce(() => {
+                window["vm3ViewController"].showEndCard();
+            }, 3);
+
         }, 1);
         // this.coins.children.forEach(coin => {
         //     coin.getComponent(Coin).addPyhsics();
@@ -46,7 +50,7 @@ export class CoinDome extends Component {
                     layer.forEach(coin => {
                         coin.addPyhsics();
                         coin.rigidBody.applyImpulse(v3(Math.random() * 10 - 5, Math.random() * 10 - 100, Math.random() * 10 - 5));
-                        coin.constantForce.force = new Vec3(0, -9.8 , 0);
+                        coin.constantForce.force = new Vec3(0, -9.8, 0);
                     });
                 }, (i - j) * 0.2);
             } else {
