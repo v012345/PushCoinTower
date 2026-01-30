@@ -28,6 +28,7 @@ export class GuideManager extends Component {
     cargoBedLevel: number = -1;
     isGuiding: boolean = false;
     stopTime: number = 0;
+    UINode: Node;
     guideCondtionMatrix: [[() => boolean, () => boolean, () => boolean],
         [() => boolean, () => boolean, () => boolean],
         [() => boolean, () => boolean, () => boolean]];
@@ -42,14 +43,6 @@ export class GuideManager extends Component {
             this.handNode.active = false;
         }, this);
         GameEvent.on(EventEnum.HeartBeat, cb, this);
-        GameEvent.on(EventEnum.DomeCollapse, () => {
-            GameEvent.off('TractorMove', this.hasLearnedMove, this);
-            GameEvent.off('TractorMove', this.updateStopTime, this);
-            GameEvent.off(EventEnum.HeartBeat, cb, this);
-            this.scheduleOnce(() => {
-                GameGlobal.GameOver = true;
-            }, 1);
-        }, this);
         GameEvent.on('TractorMove', this.hasLearnedMove, this);
         GameEvent.on('TractorMove', this.updateStopTime, this);
 
@@ -76,6 +69,20 @@ export class GuideManager extends Component {
             GameEvent.off('TractorMove', this.hasLearnedMove, this);
             GameEvent.on('TractorMove', this.hasLearnedMove, this);
         }, 2);
+        GameEvent.on(EventEnum.DomeCollapse, () => {
+            GameEvent.off('TractorMove', this.hasLearnedMove, this);
+            GameEvent.off('TractorMove', this.updateStopTime, this);
+            GameEvent.off(EventEnum.HeartBeat, cb, this);
+            this.scheduleOnce(() => {
+                GameGlobal.GameOver = true;
+            }, 1);
+            this.scheduleOnce(() => {
+                this.handNode.setParent(c);
+                this.tipNode.active = true;
+                this.handNode.active = true;
+                this.handNode.setPosition(0, 0, 0);
+            }, 3);
+        }, this);
         let guideMatrix = [[false, false, false],
         [false, false, false],
         [false, false, false]];
@@ -114,7 +121,7 @@ export class GuideManager extends Component {
             [this.speedUpBtn, this.speedUpBtn, this.speedUpBtn]]
         GameEvent.on(EventEnum.HeartBeat, () => {
             if (GameGlobal.GameOver) {
-                this.handNode.active = false;
+                // this.handNode.active = false;
                 return;
             }
             if (!this.isGuiding) {
@@ -141,6 +148,12 @@ export class GuideManager extends Component {
             }
         }, this);
 
+    }
+    LearnToMove() {
+        this.handNode.setParent(this.UINode);
+        this.tipNode.active = true;
+        this.handNode.active = true;
+        this.handNode.setPosition(0, 0, 0);
     }
     showCargoBedIsFullTip() {
         // GameEvent.off("CargoBedIsFull", this.showCargoBedIsFullTip, this);

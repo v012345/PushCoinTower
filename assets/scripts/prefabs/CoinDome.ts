@@ -32,10 +32,6 @@ export class CoinDome extends Component {
         AudioManager.audioPlay("DomeCollapse", false);
         this.scheduleOnce(() => {
             GameEvent.emit(EventEnum.DomeCollapse);
-            this.scheduleOnce(() => {
-                window["vm3ViewController"].showEndCard();
-            }, 3);
-
         }, 1);
         // this.coins.children.forEach(coin => {
         //     coin.getComponent(Coin).addPyhsics();
